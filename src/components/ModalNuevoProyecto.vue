@@ -4,11 +4,7 @@
     :show="$store.state.b.isOpenModalNuevoProyecto"
     as="template"
   >
-    <Dialog
-      as="div"
-      @close="$store.commit('closeModalNuevoProyecto')"
-      class="relative z-10"
-    >
+    <Dialog as="div" @close="closeModal" class="relative z-10">
       <TransitionChild
         as="template"
         enter="duration-300 ease-out"
@@ -57,6 +53,13 @@
                 </div>
               </DialogTitle>
               <div class="mt-2">
+                <div class="flex px-5 text-red-500 text-sm">
+                  <ul type="A" class="flex flex-col space-y-1">
+                    <li v-for="error in errores" :key="error" type="disc">
+                      {{ error }}
+                    </li>
+                  </ul>
+                </div>
                 <form
                   @submit.prevent="crearProyecto"
                   class="w-full h-auto space-y-8 mt-6"
@@ -71,12 +74,16 @@
                     "
                     type="text"
                     placeholder="Nombre del proyecto"
+                    maxlength="20"
+                    minlength="5"
                   />
                   <div class="flex flex-row w-full">
                     <Listbox v-model="selectedUnidadNegocio">
                       <div class="relative w-full">
                         <ListboxLabel
-                          ><div class="text-sm text-slate-400 mb-1">Unidades de negocio</div>
+                          ><div class="text-sm text-slate-400 mb-1">
+                            Unidades de negocio
+                          </div>
                         </ListboxLabel>
                         <ListboxButton
                           class="
@@ -84,12 +91,11 @@
                             w-full
                             cursor-default
                             rounded-md
-                            bg-fondo-gris-claro
+                            bg-white
                             py-2
                             pl-3
                             pr-10
                             text-left
-                            shadow-md
                             focus:outline-none
                             focus-visible:border-indigo-500
                             focus-visible:ring-2
@@ -98,9 +104,10 @@
                             focus-visible:ring-offset-2
                             focus-visible:ring-offset-orange-300
                             sm:text-sm
+                            border-2 border-fondo-gris
                           "
                         >
-                          <span class="block truncate">{{
+                          <span class="block truncate font-semibold">{{
                             selectedUnidadNegocio.name
                           }}</span>
                           <span
@@ -138,6 +145,7 @@
                               py-1
                               text-base
                               shadow-lg
+                              z-50
                               ring-1 ring-black ring-opacity-5
                               focus:outline-none
                               sm:text-sm
@@ -191,41 +199,38 @@
                     </Listbox>
                   </div>
                   <div class="flex flex-col w-full">
-                    <label class="text-sm" for="tiempo">Tiempo</label>
-                    <input
-                      v-model="tiempo"
-                      class="w-full rounded-md bg-fondo-gris-claro border-none"
-                      type="number"
-                      id="tiempo"
-                    />
-                  </div>
-                  <div class="flex flex-col w-full">
-                    <label class="text-sm" for="vCanalizada"
-                      >Volumetría canalizada</label
+                    <label class="text-sm text-slate-400 mb-1" for="tiempo"
+                      >Tiempo</label
                     >
                     <input
-                      v-model="volumenCanalizada"
-                      class="w-full rounded-md bg-fondo-gris-claro border-none"
+                      v-model="tiempo"
+                      class="
+                        w-full
+                        rounded-md
+                        bg-white
+                        border-2 border-fondo-gris
+                        font-semibold
+                      "
                       type="number"
-                      id="vCanalizada"
+                      id="tiempo"
+                      min="0"
                     />
                   </div>
-                  <div class="flex flex-col w-full">
-                    <label class="text-sm" for="vCable">Volumetria cable</label>
-                    <input
-                      v-model="volumenCable"
-                      class="w-full rounded-md bg-fondo-gris-claro border-none"
-                      type="number"
-                      id="vCable"
-                    />
-                  </div>
+                  <!-- Componente volumen -->
+                  <modal-nuevo-proyecto-volumen />
                   <div class="flex flex-col w-full">
                     <label class="text-sm" for="iTotal">Ingreso total</label>
                     <input
                       v-model="ingresoTotal"
-                      class="w-full rounded-md bg-fondo-gris-claro border-none"
+                      class="
+                        w-full
+                        rounded-md
+                        bg-white
+                        border-2 border-fondo-gris
+                      "
                       type="number"
                       id="iTotal"
+                      min="1"
                     />
                   </div>
 
@@ -297,6 +302,7 @@
 
 <script setup>
 import { ref } from "vue";
+import ModalNuevoProyectoVolumen from "./ModalNuevoProyectoVolumen.vue";
 import {
   TransitionRoot,
   TransitionChild,
@@ -312,6 +318,7 @@ import {
   ListboxOption,
 } from "@headlessui/vue";
 import { CheckIcon, SelectorIcon } from "@heroicons/vue/solid";
+import { PlusCircleIcon, XCircleIcon } from "@heroicons/vue/outline";
 import {
   getDatabase,
   ref as refDB,
@@ -325,9 +332,7 @@ import { useStore } from "vuex";
 const isOpen = ref(false);
 const nombre = ref("");
 const tiempo = ref(0);
-const volumenCanalizada = ref();
-const volumenCable = ref();
-const ingresoTotal = ref();
+const ingresoTotal = ref(1);
 const unidades = [
   { name: "Elige una unidad de negocio", deshabilitado: true },
   { name: "Infraestructura", deshabilitado: false },
@@ -340,25 +345,71 @@ const selectedUnidadNegocio = ref(unidades[0]);
 const router = useRouter();
 const store = useStore();
 const database = getDatabase();
+const errores = ref([]);
 const proyectoListRef = refDB(database, "proyectos");
+const volumetrias = ref(new Object());
 
 const crearProyecto = () => {
+  errores.value = [];
+
   const nuevoProyecto = push(proyectoListRef);
+
+  for (const elements in volumetrias.value) {
+    delete volumetrias.value[elements];
+  }
+
+  // validaciones
+  if (!nombre.value) errores.value.push("El proyecto debe tener nombre.");
+  if (tiempo.value < 0)
+    errores.value.push("El tiempo no puede ser menor a cero.");
+  if (selectedUnidadNegocio.value.deshabilitado)
+    errores.value.push("Selecciona una unidad de negocio.");
+  if (ingresoTotal.value < 1 || !ingresoTotal.value)
+    errores.value.push("El ingreso es menor a uno o está vacio.");
+  // Volumetrias
+  store.state.b.tipoVolumetrias.forEach((element, index) => {
+    if (
+      store.state.b.volumetrias[index] == 0 ||
+      !store.state.b.volumetrias[index] ||
+      store.state.b.volumetrias[index] < 0
+    )
+      errores.value.push(
+        `La volumetría no puede ser cero o menor a cero en ${element}`
+      );
+
+    volumetrias.value[element] = {
+      cantidad: store.state.b.volumetrias[index],
+      unidad: store.state.b.unidadVolumetrias[index],
+    };
+  });
+  if (errores.value.length > 0) return errores.value;
   set(nuevoProyecto, {
     nombre: nombre.value,
     tiempo: tiempo.value ? tiempo.value : null,
-    Volumen: {
-      canalizada: volumenCanalizada.value ? volumenCanalizada.value : null,
-      cable: volumenCable.value ? volumenCable.value : null,
-    },
+    volumetrias: volumetrias.value,
     ingresoTotal: ingresoTotal.value,
     estado: "Pendiente de información",
     unidad: selectedUnidadNegocio.value.name,
     creado: serverTimestamp(),
   }).then(() => {
     store.commit("closeModalNuevoProyecto");
+    closeModal();
     router.push(`/proyectos/${nuevoProyecto.key}`);
   });
+};
+
+const closeModal = () => {
+  nombre.value = "";
+  selectedUnidadNegocio.value = unidades[0];
+  tiempo.value = 0;
+  store.state.b.tipoVolumetrias = [];
+  store.state.b.volumetrias = [];
+  store.state.b.unidadVolumetrias = [];
+  for (const elements in volumetrias.value) {
+    delete volumetrias.value[elements];
+  }
+  errores.value = [];
+  store.commit("closeModalNuevoProyecto");
 };
 </script>
 

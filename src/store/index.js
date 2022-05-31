@@ -17,6 +17,9 @@ const proyectosControl = {
         isOpenModalNuevoProyecto: false,
         isOpenModalConfirmacion: false,
         proyectoQuery: {},
+        volumetrias: [],
+        tipoVolumetrias: [],
+        unidadVolumetrias: [],
     }),
     mutations: {
         openModalNuevoProyecto(state) {
