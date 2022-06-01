@@ -1,6 +1,6 @@
 <template>
   <div class="flex w-full h-auto space-x-[4%] pb-6">
-    <div class="flex flex-col w-[32%] bg-red-200 p-8">
+    <div class="flex flex-col w-[32%] bg-fondo-gris-claro rounded-2xl p-8">
       <!-- Icono / Nombre proyecto / Funciones -->
       <div class="flex flex-col w-full items-center justify-center space-y-6">
         <!-- icono -->
@@ -8,13 +8,13 @@
         <!-- Nombre proyecto / Funciones -->
         <div class="flex flex-row w-full items-center justify-center space-x-6">
           <div
-            class="w-auto h-auto bg-blue-200 max-w-[30%] truncate"
+            class="w-auto h-auto max-w-[30%] truncate"
             :title="nombre"
           >
             {{ nombre }}
           </div>
           <div
-            class="w-auto h-auto bg-blue-200 max-w-[30%] truncate"
+            class="w-auto h-auto max-w-[30%] truncate"
             :title="nombre"
           >
             <img src="/img/arrow.svg" alt="" />
@@ -32,7 +32,7 @@
         </div>
         <div class="flex w-full items-center">
           <div class="font-semibold text-lg w-[40%]">Estado:</div>
-          <div class="flex text-base w-[60%] justify-end">{{ estado }}</div>
+          <div class="flex text-base w-[70%] justify-end">{{ estado }}</div>
         </div>
       </div>
       <!-- Fin fecha creación / estado -->
@@ -47,25 +47,30 @@
       <div
         class="flex flex-col justify-center items-center w-full space-y-4 mt-14"
       >
+      <!-- Volumetrías -->
+     <div class="flex w-full font-semibold"> Volumetrías </div>
         <div
           class="flex flex-col py-2 px-8 bg-fondo-gris rounded-lg min-w-[70%]"
+          v-for="(volumen, key) in volumetrias"
+          :key="volumen"
         >
-          <div class="text-base">Volumetría</div>
+          <div class="text-base">{{ key }}</div>
           <div class="font-semibold text-lg w-full">
-            {{ volumetriaCanalizada }} m
+            {{ volumen.cantidad }} {{ volumen.unidad }}
           </div>
         </div>
         <div
           class="flex flex-col py-2 px-8 bg-fondo-gris rounded-lg min-w-[70%]"
+          v-if="tiempo"
         >
           <div class="text-base">Tiempo</div>
           <div class="font-semibold text-lg w-full">{{ tiempo }} días</div>
         </div>
       </div>
     </div>
-    <div class="flex flex-col space-y-[4%] w-[32%] bg-red-200">
+    <div class="flex flex-col space-y-[4%] w-[32%]">
       <!-- Costo Interno -->
-      <div class="flex flex-col space-y-6 bg-orange-100 p-8 h-[32%]">
+      <div class="flex flex-col space-y-6 bg-fondo-gris-claro rounded-2xl p-8 h-[32%] min-h-[32%]">
         <div class="text-lg font-semibold">Costo Interno</div>
         <div class="flex w-full justify-center items-center space-x-[10%]">
           <div class="flex flex-col w-[35%]">
@@ -90,17 +95,17 @@
           </div>
         </div>
         <div
-          class="flex justify-end bg-blue-200 w-full space-x-4"
+          class="flex justify-end items-center w-full space-x-4"
           v-if="costoInternoMaterial || costoInternoManoObra"
         >
           <div>Total |</div>
-          <div class="truncate" :title="costoInternoTotal">
-            {{ costoInternoTotal }}
+          <div class="truncate font-semibold text-lg" :title="costoInternoTotal">
+            {{ costoInternoTotal }} mxn
           </div>
         </div>
       </div>
       <!-- Costo Externo -->
-      <div class="flex flex-col space-y-6 bg-orange-100 p-8 h-[32%]">
+      <div class="flex flex-col space-y-6 bg-fondo-gris-claro rounded-2xl p-8 h-[32%] min-h-[32%]">
         <div class="text-lg font-semibold">Costo Externo</div>
         <div class="flex w-full justify-center items-center space-x-[10%]">
           <div class="flex flex-col w-[35%]">
@@ -125,17 +130,17 @@
           </div>
         </div>
         <div
-          class="flex justify-end bg-blue-200 w-full space-x-4"
+          class="flex justify-end items-center w-full space-x-4"
           v-if="costoExternoMaterial || costoExternoManoObra"
         >
           <div>Total |</div>
-          <div class="truncate" :title="costoExternoTotal">
-            {{ costoExternoTotal }}
+          <div class="truncate font-semibold text-lg" :title="costoExternoTotal">
+            {{ costoExternoTotal }} mxn
           </div>
         </div>
       </div>
       <!-- Gastos Administrativos -->
-      <div class="flex flex-col space-y-2 bg-orange-100 p-8 h-[32%]">
+      <div class="flex flex-col space-y-2 bg-fondo-gris-claro rounded-2xl p-8 h-[32%] min-h-[32%]">
         <div class="text-lg font-semibold">Gastos Administrativos</div>
         <div class="flex w-full justify-center items-center space-x-[10%]">
           <div class="flex flex-col w-[35%]">
@@ -182,15 +187,15 @@
           </div>
         </div>
         <div
-          class="flex justify-end bg-blue-200 w-full space-x-4"
+          class="flex justify-end w-full space-x-4 items-center"
           v-if="gastoFijo || gastoNomina || gastoVariable || gastoOtros"
         >
           <div>Total |</div>
-          <div class="truncate" :title="gastoTotal">{{ gastoTotal }}</div>
+          <div class="truncate font-semibold text-lg" :title="gastoTotal">{{ gastoTotal }} mxn</div>
         </div>
       </div>
     </div>
-    <div class="flex flex-col items-center p-8 w-[32%] bg-red-200 space-y-[4%]">
+    <div class="flex flex-col items-center p-8 w-[32%] bg-white space-y-[4%]">
       <div class="text-lg font-semibold">Rentabilidad parcial</div>
       <div class="flex flex-col items-center">
         <div class="text-lg font-semibold">Bruta</div>
@@ -239,7 +244,6 @@
           items-center
           space-y-[50%]
           h-full
-          bg-red-300
           w-full
         "
       >
@@ -286,8 +290,7 @@ const creado = ref();
 const estado = ref();
 const iTotal = ref();
 const iTotalAritmetico = ref(0);
-const volumetriaCanalizada = ref();
-const volumetriaCable = ref();
+const volumetrias = ref();
 const costoInternoMaterial = ref(0);
 const costoInternoManoObra = ref(0);
 const costoInternoTotal = ref(0);
@@ -386,15 +389,9 @@ const rentabilidad = () => {
   rentabilidadBruta.value =
     (1 - costoTotal.value / iTotalAritmetico.value) * 100;
   rentabilidadBruta.value = rentabilidadBruta.value.toFixed(2);
-  console.log(
-    costoTotal.value,
-    datosSinFormato.value.gastoTotal,
-    iTotalAritmetico.value
-  );
 };
 
 onMounted(() => {
-  console.log(route.params.key);
   get(child(proyectoRef, `proyectos/${route.params.key}`)).then((snapshot) => {
     if (snapshot.exists()) {
       console.log(snapshot.val());
@@ -412,11 +409,8 @@ onMounted(() => {
         style: "currency",
         currency: "MXN",
       });
-      if (snapshot.hasChild("Volumen")) {
-        if (snapshot.hasChild("Volumen/canalizada"))
-          volumetriaCanalizada.value = snapshot
-            .val()
-            .Volumen.canalizada.toLocaleString("en");
+      if (snapshot.hasChild("volumetrias")) {
+        volumetrias.value = snapshot.val().volumetrias
       }
       if (snapshot.hasChild("tiempo")) tiempo.value = snapshot.val().tiempo;
       if (snapshot.hasChild("costoInterno/material"))

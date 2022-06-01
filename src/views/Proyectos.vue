@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col w-full h-full space-y-14">
     <!-- Nuevos proyectos / pendientes -->
-    <div class="flex w-full h-[30%]">
+    <div class="flex w-full h-[43%]">
       <div class="w-[12%] text-xl font-semibold min-w-min">
         Agregar nuevo proyecto
       </div>
