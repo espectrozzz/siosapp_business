@@ -5,7 +5,7 @@
             <Navbar />
         </div>
         <div class="w-full h-full pt-8 px-4 overflow-y-auto">
-            <router-view></router-view>
+                <router-view></router-view>
             <ModalNuevoProyecto />
         </div>
         <!-- Fin de Navbar -->

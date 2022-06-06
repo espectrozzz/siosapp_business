@@ -120,15 +120,12 @@ const listaProyectos = query(proyectosRef, orderByKey());
 function cambioPestana(index) {
   proyectosEnProceso.value = [];
   Object.entries(snapshotData.value).forEach(([key, value]) => {
-    console.log(value.estado === "En proceso");
-    // console.log(value.unidad, unidadesNegocio.value[index].name);
     if (
       (value.estado === "En proceso" &&
         value.unidad === unidadesNegocio.value[index].name) ||
       (value.estado === "En proceso" &&
         unidadesNegocio.value[index].name === "Todos")
     ) {
-      console.log("Entró");
       proyectosEnProceso.value.push({
         key: key,
         value: value,
@@ -147,5 +144,4 @@ get(listaProyectos).then((snapshot) => {
   snapshotData.value = snapshot.val();
   cambioPestana(0);
 });
-console.log("Hola");
 </script>
