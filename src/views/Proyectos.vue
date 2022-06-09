@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col w-full h-full space-y-14">
     <!-- Nuevos proyectos / pendientes -->
-    <div class="flex w-full h-[43%]">
+    <div class="flex w-full h-[43%] min-h-[26%]">
       <div class="w-[12%] text-xl font-semibold min-w-min">
         Agregar nuevo proyecto
       </div>
@@ -51,25 +51,37 @@
         <TabPanels>
           <TabPanel>
             <div class="mt-4">
-              <proyectos-pestanas-todos :datos="proyectosEnProceso" />
+              <proyectos-pestanas-todos :enProceso="proyectosEnProceso" :finalizados="proyectosFinalizados"/>
             </div>
           </TabPanel>
           <TabPanel
             ><div class="mt-4">
-              <proyectos-pestanas-todos :datos="proyectosEnProceso" />
+              <proyectos-pestanas-todos
+                :enProceso="proyectosEnProceso"
+                :finalizados="proyectosFinalizados"
+              />
             </div>
           </TabPanel>
           <TabPanel>
             <div class="mt-4">
-              <proyectos-pestanas-todos :datos="proyectosEnProceso" /></div
+              <proyectos-pestanas-todos
+                :enProceso="proyectosEnProceso"
+                :finalizados="proyectosFinalizados"
+              /></div
           ></TabPanel>
           <TabPanel>
             <div class="mt-4">
-              <proyectos-pestanas-todos :datos="proyectosEnProceso" /></div
+              <proyectos-pestanas-todos
+                :enProceso="proyectosEnProceso"
+                :finalizados="proyectosFinalizados"
+              /></div
           ></TabPanel>
           <TabPanel>
             <div class="mt-4">
-              <proyectos-pestanas-todos :datos="proyectosEnProceso" /></div
+              <proyectos-pestanas-todos
+                :enProceso="proyectosEnProceso"
+                :finalizados="proyectosFinalizados"
+              /></div
           ></TabPanel>
         </TabPanels>
       </TabGroup>
@@ -104,6 +116,7 @@ const store = useStore();
 const proyectosRef = refDB(database, "proyectos");
 const proyectosPendientes = ref([]);
 const proyectosEnProceso = ref([]);
+const proyectosFinalizados = ref([]);
 const snapshotData = ref();
 const consulta = ref();
 
@@ -119,7 +132,9 @@ const listaProyectos = query(proyectosRef, orderByKey());
 
 function cambioPestana(index) {
   proyectosEnProceso.value = [];
+  proyectosFinalizados.value = [];
   Object.entries(snapshotData.value).forEach(([key, value]) => {
+    // En proceso
     if (
       (value.estado === "En proceso" &&
         value.unidad === unidadesNegocio.value[index].name) ||
@@ -127,6 +142,19 @@ function cambioPestana(index) {
         unidadesNegocio.value[index].name === "Todos")
     ) {
       proyectosEnProceso.value.push({
+        key: key,
+        value: value,
+      });
+    }
+    // Finalizados
+    console.log(value.estado === "Finalizado", value.unidad === unidadesNegocio.value[index].name, value.estado === "Finalizado", unidadesNegocio.value[index].name === "Todos")
+    if (
+      (value.estado === "Finalizado" &&
+        value.unidad === unidadesNegocio.value[index].name) ||
+      (value.estado === "Finalizado" &&
+        unidadesNegocio.value[index].name === "Todos")
+    ) {
+      proyectosFinalizados.value.push({
         key: key,
         value: value,
       });

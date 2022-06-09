@@ -18,6 +18,8 @@ const proyectosControl = {
         isOpenModalConfirmacion: false,
         isOpenModalEditarTiempoVolumetria: false,
         isOpenModalEditarCostosGastos: false,
+        isOpenModalFinalizarProyecto: false,
+        isOpenModalReabrirProyecto: false,
         proyectoQuery: {},
         volumetrias: [],
         tipoVolumetrias: [],
@@ -36,6 +38,12 @@ const proyectosControl = {
         closeModalConfirmacion(state) {
             state.isOpenModalConfirmacion = false
         },
+        openModalFinalizarProyecto(state) {
+            state.isOpenModalFinalizarProyecto = true
+        },
+        closeModalFinalizarProyecto(state) {
+            state.isOpenModalFinalizarProyecto = false
+        },
         openModalEditarTiempoVolumetria(state) {
             state.isOpenModalEditarTiempoVolumetria = true
         },
@@ -47,6 +55,12 @@ const proyectosControl = {
         },
         closeModalEditarCostosGastos(state) {
             state.isOpenModalEditarCostosGastos = false
+        },
+        openModalReabrirProyecto(state) {
+            state.isOpenModalReabrirProyecto = true
+        },
+        closeModalReabrirProyecto(state) {
+            state.isOpenModalReabrirProyecto= false
         },
         queryResult(state, data){
             state.proyectoQuery = data;

@@ -4,8 +4,8 @@
         <div class="w-full h-[13%]">
             <Navbar />
         </div>
-        <div class="w-full h-full pt-8 px-4 overflow-y-auto">
-                <router-view></router-view>
+        <div class="w-full h-full py-8 px-4 overflow-y-auto">
+                    <router-view></router-view>
             <ModalNuevoProyecto />
         </div>
         <!-- Fin de Navbar -->

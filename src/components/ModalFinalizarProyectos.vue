@@ -1,12 +1,12 @@
 <template>
   <TransitionRoot
     appear
-    :show="$store.state.b.isOpenModalConfirmacion"
+    :show="$store.state.b.isOpenModalFinalizarProyecto"
     as="template"
   >
     <Dialog
       as="div"
-      @close="$store.commit('closeModalConfirmacion')"
+      @close="$store.commit('closeModalFinalizarProyecto')"
       class="relative z-10"
     >
       <TransitionChild
@@ -52,8 +52,17 @@
                 as="h3"
                 class="flex text-lg font-medium leading-6 text-gray-900"
               >
-                <div class="flex justify-center items-center w-full font-semibold text-xl">
-                  Estás a punto de iniciar el proyecto
+                <div
+                  class="
+                    flex
+                    justify-center
+                    items-center
+                    w-full
+                    font-semibold
+                    text-xl
+                  "
+                >
+                  Estás a punto de terminar este proyecto
                 </div>
               </DialogTitle>
               <div class="flex flex-col w-full mt-2">
@@ -82,13 +91,13 @@
                       focus-visible:ring-blue-500
                       focus-visible:ring-offset-2
                     "
-                    @click="$store.commit('closeModalConfirmacion')"
+                    @click="$store.commit('closeModalFinalizarProyecto')"
                   >
                     Cancelar
                   </button>
                   <button
-                    @click="iniciarProyecto"
                     type="button"
+                    @click="finalizar"
                     class="
                       inline-flex
                       justify-center
@@ -107,7 +116,7 @@
                       focus-visible:ring-offset-2
                     "
                   >
-                    Iniciar
+                    Si, continuar
                   </button>
                 </div>
               </div>
@@ -130,24 +139,21 @@ import {
   DialogPanel,
   DialogTitle,
 } from "@headlessui/vue";
-import { getDatabase, ref as refDB, update, serverTimestamp } from "@firebase/database";
+import {
+  getDatabase,
+  ref as refDB,
+  update,
+  serverTimestamp,
+} from "@firebase/database";
 
-const props = defineProps(["id", "rentabilidad"]);
+const props = defineProps(["data"]);
 const database = getDatabase();
 const router = useRouter();
-const store = useStore();
 
-const iniciarProyecto = () => {
-  update(refDB(database, `proyectos/${props.id}`), {
-    estado: "En proceso",
-    rentabilidad: {
-      bruta: props.rentabilidad.bruta,
-      neta: props.rentabilidad.neta,
-    },
-    fechaInicio: serverTimestamp(),
-  }).then(() => {
-    store.commit("closeModalConfirmacion");
-    router.push("/proyectos");
-  });
+const finalizar = () => {
+  update(refDB(database, `proyectos/${props.data.key}`), {
+    estado: "Finalizado",
+    fechaFinalizado: serverTimestamp(),
+  }).then(() => { router.push(`/proyectos/finalizados/${props.data.key}`) });
 };
 </script>

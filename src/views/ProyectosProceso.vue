@@ -198,10 +198,11 @@
       </div>
       <!-- Fin tarjeta costos/gastos -->
       <div class="flex justify-center items-center w-[50%]">
-        <button class="p-6 bg-fondo-gris-claro rounded-lg">
+        <button class="p-6 bg-fondo-gris-claro rounded-lg" type="button" @click="$store.commit('openModalFinalizarProyecto')">
           Finalizar y ver resultados
         </button>
       </div>
+      <modal-finalizar-proyectos :data="data"/>
     </div>
   </div>
 </template>
@@ -210,6 +211,7 @@
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { getDatabase, ref as refDB, get, child } from "firebase/database";
+import ModalFinalizarProyectos from "@/components/ModalFinalizarProyectos.vue";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import ModalEditarTiempoVolumetria from "@/components/ModalEditarTiempoVolumetria.vue";
 import ModalEditarCostosGastos from "@/components/ModalEditarCostosGastos.vue";
@@ -224,6 +226,7 @@ const data = ref({
 const creado = ref();
 const iTotal = ref();
 const diasAvanzados = ref();
+const key = ref();
 
 get(child(proyectoRef, `proyectos/${route.params.key}`)).then((snapshot) => {
   if (snapshot.exists()) {

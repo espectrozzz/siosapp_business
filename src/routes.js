@@ -4,6 +4,7 @@ import NotFound from './views/NotFound.vue'
 import Proyectos from './views/Proyectos.vue'
 import ProyectosPendientes from './views/ProyectosPendientes.vue'
 import ProyectosProceso from './views/ProyectosProceso.vue'
+import ProyectosFinalizados from './views/ProyectosFinalizados.vue'
 
 /** @type {import('vue-router').RouterOptions['routes']} */
 export const routes = [
@@ -13,6 +14,7 @@ export const routes = [
   },
   { path: '/proyectos/:key', component: ProyectosPendientes, meta: { title: 'Proyectos pendientes' } },
   { path: '/proyectos/en-proceso/:key', component: ProyectosProceso, meta: { title: 'Proyectos en proceso' } },
+  { path: '/proyectos/finalizados/:key', component: ProyectosFinalizados, meta: { title: 'Proyectos finalizados' } },
   {
     path: '/about',
     meta: { title: 'About' },
