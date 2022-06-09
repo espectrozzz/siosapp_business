@@ -15,7 +15,7 @@
             class="
               flex flex-col
               w-[30%]
-              h-full
+              h-fit
               border-dashed border-2 border-fondo-gris
               rounded-lg
               pt-4
@@ -67,7 +67,7 @@
             class="
               flex flex-col
               w-[30%]
-              h-full
+              h-fit
               border-dashed border-2 border-fondo-gris
               rounded-lg
               pt-4
@@ -131,7 +131,7 @@
         "
       >
         <!-- Costo interno -->
-        <div class="flex space-x-6">
+        <div class="flex space-x-6" v-if="data.costoInterno">
           <div class="w-16 h-14 bg-fondo-gris rounded-md"></div>
           <div class="flex flex-col w-full">
             Costo Interno
@@ -143,7 +143,7 @@
             </div>
           </div>
         </div>
-        <div class="flex space-x-6">
+        <div class="flex space-x-6" v-if="data.costoExterno">
           <div class="w-16 h-14 bg-fondo-gris rounded-md"></div>
           <div class="flex flex-col w-full">
             Costo Externo
@@ -155,7 +155,7 @@
             </div>
           </div>
         </div>
-        <div class="flex space-x-6">
+        <div class="flex space-x-6" v-if="data.gastos">
           <div class="w-16 h-14 bg-fondo-gris rounded-md"></div>
           <div class="flex flex-col w-full">
             Gastos

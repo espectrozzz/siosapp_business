@@ -159,7 +159,7 @@
           </Popover>
         </div>
         <!-- Costo interno -->
-        <div class="flex space-x-6">
+        <div class="flex space-x-6" v-if="data.val().costoInterno">
           <div class="w-16 h-14 bg-fondo-gris rounded-md"></div>
           <div class="flex flex-col w-full">
             Costo Interno
@@ -171,7 +171,7 @@
             </div>
           </div>
         </div>
-        <div class="flex space-x-6">
+        <div class="flex space-x-6" v-if="data.val().costoExterno">
           <div class="w-16 h-14 bg-fondo-gris rounded-md"></div>
           <div class="flex flex-col w-full">
             Costo Externo
@@ -183,7 +183,7 @@
             </div>
           </div>
         </div>
-        <div class="flex space-x-6">
+        <div class="flex space-x-6" v-if="data.val().gastos">
           <div class="w-16 h-14 bg-fondo-gris rounded-md"></div>
           <div class="flex flex-col w-full">
             Gastos

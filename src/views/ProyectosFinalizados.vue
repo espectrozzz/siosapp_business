@@ -120,7 +120,7 @@ onMounted(() => {
               if (snapshot.hasChild("rentabilidad/bruta")) {
                 rentabilidadFinal.value.bruta =
                   snapshot.val().rentabilidad.bruta;
-                  (efectividad.value.bruta = (rentabilidadFinal.value.bruta * 100) / data.value.rentabilidad.bruta).toFixed(2);
+                  efectividad.value.bruta = ((rentabilidadFinal.value.bruta * 100) / data.value.rentabilidad.bruta).toFixed(2);
               }
               if (snapshot.hasChild("rentabilidad/neta")) {
                 rentabilidadFinal.value.neta = snapshot.val().rentabilidad.neta;
