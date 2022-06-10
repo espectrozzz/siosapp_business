@@ -15,6 +15,7 @@ export const routes = [
   { path: '/proyectos/:key', component: ProyectosPendientes, meta: { title: 'Proyectos pendientes' } },
   { path: '/proyectos/en-proceso/:key', component: ProyectosProceso, meta: { title: 'Proyectos en proceso' } },
   { path: '/proyectos/finalizados/:key', component: ProyectosFinalizados, meta: { title: 'Proyectos finalizados' } },
+  { path: '/home', component: Home, meta: { title: 'Home' } },
   {
     path: '/about',
     meta: { title: 'About' },

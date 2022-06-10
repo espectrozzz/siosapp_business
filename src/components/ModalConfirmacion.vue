@@ -7,7 +7,7 @@
     <Dialog
       as="div"
       @close="$store.commit('closeModalConfirmacion')"
-      class="relative z-10"
+      class="relative z-50"
     >
       <TransitionChild
         as="template"

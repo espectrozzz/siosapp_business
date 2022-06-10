@@ -8,7 +8,7 @@ const store = useStore();
 
 <template>
   <div class="flex w-full h-screen">
-    <div class="bg-fondo-gris-claro h-full transition-all duration-500 rounded-r-3xl" :class="[$store.state.a.open ? 'w-[18%]' : 'w-[0%]']">
+    <div class="bg-white border h-full transition-all ease-in duration-300 rounded-r-3xl " :class="[$store.state.a.open ? 'w-[18%] z-40 shadow-right' : 'w-[0%]']">
       <Sidebar />
     </div>
     <div class="bg-white w-full h-full"> <MainContainer /> </div>
