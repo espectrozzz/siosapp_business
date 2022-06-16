@@ -9,11 +9,11 @@
         <ProyectoNuevo />
       </div>
       <!-- pendientes -->
-      <div class="flex flex-row w-[83%] h-[100%] overflow-auto">
+      <div class="scroll-barra flex flex-row w-[83%] h-[100%] overflow-auto snap-x scroll-auto cursor-pointer select-none">
         <div
           class="
             flex
-            ,
+            snap-start
             ProyectoTarjetaEnProceso
             w-[20%]
             min-w-[20%]
@@ -26,6 +26,7 @@
           v-for="(item, index) in proyectosPendientes"
           :key="index"
         >
+
           <proyectos-tarjeta-pendiente-vue :data="item" />
         </div>
       </div>
@@ -128,11 +129,16 @@ const unidadesNegocio = ref([
   { name: "Ventas", disabled: false },
 ]);
 
+const drag = () => {
+  alert("Hola");
+}
+
 const listaProyectos = query(proyectosRef, orderByKey());
 
 function cambioPestana(index) {
   proyectosEnProceso.value = [];
   proyectosFinalizados.value = [];
+
   Object.entries(snapshotData.value).forEach(([key, value]) => {
     // En proceso
     if (
@@ -173,3 +179,35 @@ get(listaProyectos).then((snapshot) => {
   cambioPestana(0);
 });
 </script>
+
+<style>
+.scroll-barra::-webkit-scrollbar{
+  height: 8px;
+}
+ /* Estilos barra (thumb) de scroll */
+.scroll-barra::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+.scroll-barra::-webkit-scrollbar-thumb:active {
+  background-color: #999999;
+}
+
+.scroll-barra::-webkit-scrollbar-thumb:hover {
+  background: #b3b3b3;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+ /* Estilos track de scroll */
+.scroll-barra::-webkit-scrollbar-track {
+  background: #e1e1e1;
+  border-radius: 4px;
+}
+
+.scroll-barra::-webkit-scrollbar-track:hover, 
+.scroll-barra::-webkit-scrollbar-track:active {
+  background: #d4d4d4;
+}
+</style>
+

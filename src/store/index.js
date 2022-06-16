@@ -20,6 +20,7 @@ const proyectosControl = {
         isOpenModalEditarCostosGastos: false,
         isOpenModalFinalizarProyecto: false,
         isOpenModalReabrirProyecto: false,
+        isOpenModalEliminarProyecto: false,
         proyectoQuery: {},
         volumetrias: [],
         tipoVolumetrias: [],
@@ -61,6 +62,12 @@ const proyectosControl = {
         },
         closeModalReabrirProyecto(state) {
             state.isOpenModalReabrirProyecto= false
+        },
+        openModalEliminarProyecto(state) {
+            state.isOpenModalEliminarProyecto = true
+        },
+        closeModalEliminarProyecto(state) {
+            state.isOpenModalEliminarProyecto= false
         },
         queryResult(state, data){
             state.proyectoQuery = data;

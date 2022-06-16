@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col h-auto w-full min-w-fit transition-all ease-in duration-200 ease-out duration-500" :class="[$store.state.a.open ? 'opacity-100': 'opacity-0']">
+  <div class="flex flex-col h-auto w-full min-w-fit transition-all ease-in duration-200 ease-out duration-500 select-none" :class="[$store.state.a.open ? 'opacity-100': 'opacity-0']">
     <!-- Bienvenida de usuario -->
     <div class="flex w-full justify-center items-center space-x-4 py-8" >
       <!-- ícono -->

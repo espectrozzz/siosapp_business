@@ -61,7 +61,7 @@
               >
               <a
                 class="p-0.5 hover:bg-fondo-gris rounded-md cursor-pointer"
-                href="/integrations"
+                @click="$store.commit('openModalEliminarProyecto')"
                 >Eliminar proyecto</a
               >
             </div>
@@ -106,6 +106,7 @@
         G
       </div>
     </div>
+    <ModalEliminarProyecto :data="props.data"/>
   </div>
 </template>
 
@@ -113,6 +114,8 @@
 import { ref } from "vue";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import { useRoute } from "vue-router";
+import { getDatabase, ref as refDB } from "@firebase/database";
+import ModalEliminarProyecto from "./ModalEliminarProyecto.vue";
 
 const props = defineProps(["data"]);
 const route = useRoute();
