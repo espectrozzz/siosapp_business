@@ -217,7 +217,7 @@
                     />
                   </div>
                   <!-- Componente volumen -->
-                  <modal-nuevo-proyecto-volumen />
+                  <modal-nuevo-proyecto-volumen :volumetrias="volumetrias" :medidas="medidas" @agregarVolumetria="agregarVolumetria" />
                   <div class="flex flex-col w-full">
                     <label class="text-sm" for="iTotal">Ingreso total</label>
                     <input
@@ -301,7 +301,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import ModalNuevoProyectoVolumen from "./ModalNuevoProyectoVolumen.vue";
 import {
   TransitionRoot,
@@ -347,15 +347,65 @@ const store = useStore();
 const database = getDatabase();
 const errores = ref([]);
 const proyectoListRef = refDB(database, "proyectos");
-const volumetrias = ref(new Object());
+const volumetriasCantidad = ref(new Object());
+const poliza = ref(true);
+
+const volumetrias = ref([
+  { name: "Canalizada", deshabilitado: false },
+  { name: "Cable", deshabilitado: false },
+  { name: "Otro", deshabilitado: false },
+  { name: "Poliza", deshabilitado: true },
+]);
+
+const medidas = ref([
+  { name: "Metros", atajo: "M", deshabilitado: false },
+  { name: "Kilometros", atajo: "Km", deshabilitado: false },
+  { name: "Pieza", atajo: "Pieza", deshabilitado: false },
+  { name: "Porcentaje", atajo: "%", deshabilitado: true},
+]);
+
+watch(selectedUnidadNegocio, () => {
+  store.commit('unidadNegocioPoliza', selectedUnidadNegocio.value)
+    volumetrias.value.forEach((element) => {
+      if(element.name === 'Poliza' && selectedUnidadNegocio.value.name === 'Poliza') element.deshabilitado = false;
+      else if (element.name === 'Poliza' && selectedUnidadNegocio.value.name != 'Poliza') element.deshabilitado = true;
+    })
+    medidas.value.forEach((element) => {
+      if(element.name === 'Porcentaje' && selectedUnidadNegocio.value.name === 'Poliza') element.deshabilitado = false;
+      else if (element.name === 'Porcentaje' && selectedUnidadNegocio.value.name != 'Poliza') element.deshabilitado = true;
+    })
+})
+
+// Agregar volumetria
+// Estas variables están en el store/index.js/proyectosControl
+const agregarVolumetria = () => {
+  store.state.b.volumetrias.push(0);
+
+  if (volumetrias.value.length - 1 > store.state.b.controlVolumetria - 1) {
+    store.state.b.tipoVolumetrias.push(
+      volumetrias.value[store.state.b.controlVolumetria].name
+    );
+  } else {
+    store.state.b.tipoVolumetrias.push(volumetrias.value[0].name);
+  }
+
+  if (medidas.value.length - 1 > store.state.b.controlVolumetria - 1) {
+    store.state.b.unidadVolumetrias.push(
+      medidas.value[store.state.b.controlVolumetria].atajo
+    );
+  } else {
+    store.state.b.unidadVolumetrias.push(medidas.value[0].atajo);
+  }
+  store.state.b.controlVolumetria++;
+};
 
 const crearProyecto = () => {
   errores.value = [];
 
   const nuevoProyecto = push(proyectoListRef);
 
-  for (const elements in volumetrias.value) {
-    delete volumetrias.value[elements];
+  for (const elements in volumetriasCantidad.value) {
+    delete volumetriasCantidad.value[elements];
   }
 
   // validaciones
@@ -377,7 +427,7 @@ const crearProyecto = () => {
         `La volumetría no puede ser cero o menor a cero en ${element}`
       );
 
-    volumetrias.value[element] = {
+    volumetriasCantidad.value[element] = {
       cantidad: store.state.b.volumetrias[index],
       unidad: store.state.b.unidadVolumetrias[index],
     };
@@ -386,7 +436,7 @@ const crearProyecto = () => {
   set(nuevoProyecto, {
     nombre: nombre.value,
     tiempo: tiempo.value ? tiempo.value : null,
-    volumetrias: volumetrias.value,
+    volumetrias: volumetriasCantidad.value,
     ingresoTotal: ingresoTotal.value,
     estado: "Pendiente de información",
     unidad: selectedUnidadNegocio.value.name,
@@ -405,9 +455,15 @@ const closeModal = () => {
   store.state.b.tipoVolumetrias = [];
   store.state.b.volumetrias = [];
   store.state.b.unidadVolumetrias = [];
-  for (const elements in volumetrias.value) {
-    delete volumetrias.value[elements];
+  for (const elements in volumetriasCantidad.value) {
+    delete volumetriasCantidad.value[elements];
   }
+  volumetrias.value.forEach((element) => {
+    if(element.name === 'Poliza') element.deshabilitado = true;
+  })
+  medidas.value.forEach((element) => {
+    if(element.name === 'Porcentaje') element.deshabilitado = true;
+  })
   errores.value = [];
   store.commit("closeModalNuevoProyecto");
 };

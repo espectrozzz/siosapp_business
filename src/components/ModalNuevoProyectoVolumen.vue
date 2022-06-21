@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col w-full space-y-2">
-    <div class="flex flex-col w-full" v-for="n in controlVolumetria" :key="n">
+    <div class="flex flex-col w-full" v-for="n in $store.state.b.controlVolumetria" :key="n">
       <label class="text-sm text-slate-400 mb-1">Volumetria</label>
       <div class="flex w-full">
         <div
@@ -93,7 +93,7 @@
                   >
                     <ListboxOption
                       v-slot="{ active, selected }"
-                      v-for="volumetria in volumetrias"
+                      v-for="volumetria in props.volumetrias"
                       :key="volumetria.name"
                       :value="volumetria.name"
                       :disabled="volumetria.deshabilitado"
@@ -210,7 +210,7 @@
                   >
                     <ListboxOption
                       v-slot="{ active, selected }"
-                      v-for="medida in medidas"
+                      v-for="medida in props.medidas"
                       :key="medida.atajo"
                       :value="medida.atajo"
                       :disabled="medida.deshabilitado"
@@ -268,9 +268,9 @@
       </div>
     </div>
     <div
-      v-if="volumetrias.length != controlVolumetria"
+      v-if="props.volumetrias.length != $store.state.b.controlVolumetria"
       class="flex items-center space-x-1 w-fit cursor-pointer"
-      @click="agregarVolumetria"
+      @click="$emit('agregarVolumetria')"
     >
       <PlusCircleIcon class="h-5 w-5" aria-hidden="true" />
       <div class="text-md">agregar volumetría</div>
@@ -301,52 +301,21 @@ import { PlusCircleIcon, XCircleIcon } from "@heroicons/vue/outline";
 // Inicializar store
 const store = useStore();
 
+// Definir props
+const props = defineProps(['volumetrias', 'medidas'])
+
 // Variables de control
-const controlVolumetria = ref(1);
-const volumetrias = ref([
-  { name: "Canalizada", deshabilitado: false },
-  { name: "Cable", deshabilitado: false },
-  { name: "Otro", deshabilitado: false },
-]);
-const selectedVolumetria = ref([volumetrias.value[0].name]);
-const medidas = ref([
-  { name: "Metros", atajo: "M", deshabilitado: false },
-  { name: "Kilometros", atajo: "Km", deshabilitado: false },
-  { name: "Pieza", atajo: "Pieza", deshabilitado: false },
-]);
+const selectedVolumetria = ref([props.volumetrias[0].name]);
+
 
 // Inicializar inputs
 store.state.b.volumetrias.push(0);
-store.state.b.tipoVolumetrias.push(volumetrias.value[0].name);
-store.state.b.unidadVolumetrias.push(medidas.value[0].atajo);
-
-// Agregar volumetria
-// Estas variables están en el store/index.js/proyectosControl
-const agregarVolumetria = () => {
-  store.state.b.volumetrias.push(0);
-
-  if (volumetrias.value.length - 1 > controlVolumetria.value - 1) {
-    store.state.b.tipoVolumetrias.push(
-      volumetrias.value[controlVolumetria.value].name
-    );
-  } else {
-    store.state.b.tipoVolumetrias.push(volumetrias.value[0].name);
-  }
-
-  if (medidas.value.length - 1 > controlVolumetria.value - 1) {
-    console.log(medidas.value.length - 1, controlVolumetria.value - 1);
-    store.state.b.unidadVolumetrias.push(
-      medidas.value[controlVolumetria.value].atajo
-    );
-  } else {
-    store.state.b.unidadVolumetrias.push(medidas.value[0].atajo);
-  }
-  controlVolumetria.value++;
-};
+store.state.b.tipoVolumetrias.push(props.volumetrias[0].name);
+store.state.b.unidadVolumetrias.push(props.medidas[0].atajo);
 
 // Eliminar volumetría
 const eliminarVolumetria = (index) => {
-  controlVolumetria.value == 1 ? "" : controlVolumetria.value--;
+  store.state.b.controlVolumetria == 1 ? "" : store.state.b.controlVolumetria--;
   store.state.b.volumetrias.splice(index - 1, 1);
   store.state.b.tipoVolumetrias.splice(index - 1, 1);
   store.state.b.unidadVolumetrias.splice(index - 1, 1);

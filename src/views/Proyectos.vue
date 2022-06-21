@@ -153,7 +153,6 @@ function cambioPestana(index) {
       });
     }
     // Finalizados
-    console.log(value.estado === "Finalizado", value.unidad === unidadesNegocio.value[index].name, value.estado === "Finalizado", unidadesNegocio.value[index].name === "Todos")
     if (
       (value.estado === "Finalizado" &&
         value.unidad === unidadesNegocio.value[index].name) ||

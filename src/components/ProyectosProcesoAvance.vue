@@ -1,21 +1,19 @@
 <template>
-  <div class="flex w-full h-[45%] h-fit">
-    <div class="flex flex-col w-[70%]">
-      
+  <div class="flex h-[45%] h-fit w-full">
+    <div class="flex w-[70%] flex-col">
       <!-- Avance -->
-      <div class="flex flex-col w-full h-full">
+      <div class="flex h-full w-full flex-col">
         <!-- Tiempo -->
         <div class="flex w-full">
-          <div class="flex flex-col w-full">
+          <div class="flex w-full flex-col">
             <!-- Componente -->
             <div
               class="flex w-full justify-between"
               v-if="props.data.val().tiempo"
             >
-              
-              <div class="flex flex-col w-[70%]">
+              <div class="flex w-[70%] flex-col">
                 <div class="flex w-full justify-between py-1">
-                  <div class="flex flex-col w-[28%] h-[60%]">
+                  <div class="flex h-[60%] w-[28%] flex-col">
                     <label
                       class="flex w-full justify-start text-base"
                       for="tiempoTotal"
@@ -23,27 +21,18 @@
                     >
                     <div class="flex w-full">
                       <input
-                        class="
-                          w-full
-                          h-full
-                          rounded-md
-                          text-center
-                          bg-fondo-gris
-                          border-none
-                          text-lg
-                          font-semibold
-                        "
+                        class="h-full w-full rounded-md border-none bg-fondo-gris text-center text-lg font-semibold"
                         type="text"
                         id="tiempoTotal"
                         :value="props.data.val().tiempo"
                         readonly
                       />
-                      <div class="flex justify-center items-end text-lg ml-1">
+                      <div class="ml-1 flex items-end justify-center text-lg">
                         días
                       </div>
                     </div>
                   </div>
-                  <div class="flex flex-col w-[28%] h-[60%]">
+                  <div class="flex h-[60%] w-[28%] flex-col">
                     <label
                       class="flex w-full justify-start text-base"
                       for="tiempoActual"
@@ -51,27 +40,18 @@
                     >
                     <div class="flex w-full">
                       <input
-                        class="
-                          w-full
-                          h-full
-                          rounded-md
-                          bg-fondo-gris
-                          text-center
-                          border-none
-                          text-lg
-                          font-semibold
-                        "
+                        class="h-full w-full rounded-md border-none bg-fondo-gris text-center text-lg font-semibold"
                         type="text"
                         id="tiempoActual"
                         :value="tiempoAvance"
                         readonly
                       />
-                      <div class="flex justify-center items-end text-lg ml-1">
+                      <div class="ml-1 flex items-end justify-center text-lg">
                         días
                       </div>
                     </div>
                   </div>
-                  <div class="flex flex-col w-[28%] h-[60%]">
+                  <div class="flex h-[60%] w-[28%] flex-col">
                     <label
                       class="flex w-full justify-start text-base"
                       for="iTotal"
@@ -81,20 +61,12 @@
                       <input
                         v-model="tiempoNuevoAvance"
                         @change="guardar('tiempo')"
-                        class="
-                          w-full
-                          h-full
-                          rounded-md
-                          bg-fondo-gris
-                          border-none
-                          text-lg
-                          font-semibold
-                        "
+                        class="h-full w-full rounded-md border-none bg-fondo-gris text-lg font-semibold"
                         type="number"
                         id="rNeta"
                         min="0"
                       />
-                      <div class="flex justify-center items-end text-lg ml-1">
+                      <div class="ml-1 flex items-end justify-center text-lg">
                         días
                       </div>
                     </div>
@@ -102,30 +74,24 @@
                 </div>
 
                 <!-- Progress bar-->
-                <div class="flex flex-col w-full">
-                  <div class="flex justify-between w-full mb-1">
+                <div class="flex w-full flex-col">
+                  <div class="mb-1 flex w-full justify-between">
                     <span class="text-base">Progreso</span>
                     <span class="text-sm font-medium"
                       >{{ tiempoPorcentaje }}%</span
                     >
                   </div>
                   <div
-                    class="
-                      w-full
-                      bg-gray-200
-                      rounded-full
-                      h-2.5
-                      dark:bg-gray-700
-                    "
+                    class="h-2.5 w-full rounded-full bg-gray-200 dark:bg-gray-700"
                   >
                     <div
-                      class="bg-fondo-gris h-2.5 rounded-full"
+                      class="h-2.5 rounded-full bg-fondo-gris"
                       :style="`width: ${tiempoPorcentaje}%`"
                     ></div>
                   </div>
                 </div>
               </div>
-              <div class="flex flex-col w-[25%] h-full justify-center ml-2">
+              <div class="ml-2 flex h-full w-[25%] flex-col justify-center">
                 <div class="text-lg font-semibold">Estado:</div>
                 <div>Proyecto en buen camino</div>
               </div>
@@ -137,9 +103,9 @@
               v-for="(volumen, key, index) in props.data.val().volumetrias"
               :key="index"
             >
-              <div class="flex flex-col w-[70%]">
+              <div class="flex w-[70%] flex-col">
                 <div class="flex w-full justify-between py-1">
-                  <div class="flex flex-col w-[25.5%] h-[60%]">
+                  <div class="flex h-[60%] w-[25.5%] flex-col">
                     <label
                       class="flex w-full justify-start text-base"
                       for="tiempoTotal"
@@ -147,27 +113,18 @@
                     >
                     <div class="flex w-full">
                       <input
-                        class="
-                          w-full
-                          h-full
-                          rounded-md
-                          text-center
-                          bg-fondo-gris
-                          border-none
-                          text-lg
-                          font-semibold
-                        "
+                        class="h-full w-full rounded-md border-none bg-fondo-gris text-center text-lg font-semibold"
                         type="text"
                         id="tiempoTotal"
                         :value="volumen.cantidad"
                         readonly
                       />
-                      <div class="flex justify-center items-end text-lg ml-1">
+                      <div class="ml-1 flex items-end justify-center text-lg">
                         {{ volumen.unidad }}
                       </div>
                     </div>
                   </div>
-                  <div class="flex flex-col w-[25.5%] h-[60%]">
+                  <div class="flex h-[60%] w-[25.5%] flex-col">
                     <label
                       class="flex w-full justify-start text-base"
                       :for="`volumetriaActual[${index}]`"
@@ -176,26 +133,17 @@
                     <div class="flex w-full">
                       <input
                         v-model="avance[index]"
-                        class="
-                          w-full
-                          h-full
-                          rounded-md
-                          bg-fondo-gris
-                          text-center
-                          border-none
-                          text-lg
-                          font-semibold
-                        "
+                        class="h-full w-full rounded-md border-none bg-fondo-gris text-center text-lg font-semibold"
                         type="text"
                         :id="`volumetriaActual[${index}]`"
                         readonly
                       />
-                      <div class="flex justify-center items-end text-lg ml-1">
+                      <div class="ml-1 flex items-end justify-center text-lg">
                         {{ volumen.unidad }}
                       </div>
                     </div>
                   </div>
-                  <div class="flex flex-col w-[28%] h-[60%]">
+                  <div class="flex h-[60%] w-[28%] flex-col">
                     <label
                       class="flex w-full justify-start text-base"
                       :for="`nuevoAvance[${index}]`"
@@ -205,18 +153,10 @@
                       <input
                         v-model="nuevoAvance[index]"
                         @change="guardar(index)"
-                        class="
-                          w-full
-                          h-full
-                          rounded-md
-                          bg-fondo-gris
-                          border-none
-                          text-lg
-                          font-semibold
-                        "
+                        class="h-full w-full rounded-md border-none bg-fondo-gris text-lg font-semibold"
                         type="number"
                       />
-                      <div class="flex justify-center items-end text-lg ml-1">
+                      <div class="ml-1 flex items-end justify-center text-lg">
                         {{ volumen.unidad }}
                       </div>
                     </div>
@@ -224,36 +164,24 @@
                 </div>
 
                 <!-- Progress bar-->
-                <div class="flex flex-col w-full overflow-hidden">
-                  <div class="flex justify-between w-full mb-1">
+                <div class="flex w-full flex-col overflow-hidden">
+                  <div class="mb-1 flex w-full justify-between">
                     <span class="text-base">Progreso</span>
                     <span class="text-sm font-medium"
                       >{{ porcentaje[index] }}%</span
                     >
                   </div>
                   <div
-                    class="
-                      w-full
-                      bg-gray-200
-                      rounded-full
-                      h-2.5
-                      dark:bg-gray-700
-                    "
+                    class="h-2.5 w-full rounded-full bg-gray-200 dark:bg-gray-700"
                   >
                     <div
-                      class="
-                        bg-fondo-gris
-                        h-2.5
-                        rounded-full
-                        transition-all
-                        duration-500
-                      "
+                      class="h-2.5 rounded-full bg-fondo-gris transition-all duration-500"
                       :style="`width: ${porcentaje[index]}%`"
                     ></div>
                   </div>
                 </div>
               </div>
-              <div class="flex flex-col w-[25%] h-full justify-center ml-2">
+              <div class="ml-2 flex h-full w-[25%] flex-col justify-center">
                 <div class="text-lg font-semibold">Estado:</div>
                 <div>Proyecto en buen camino</div>
               </div>
@@ -264,65 +192,41 @@
       </div>
     </div>
     <div
-      class="
-        flex flex-col
-        items-center
-        justify-center
-        font-semibold
-        w-[20%]
-        h-full
-      "
+      class="flex h-full w-[20%] flex-col items-center justify-center font-semibold"
     >
-      <div class="text-lg font-semibold mb-4">Rentabilidad</div>
+      <div class="mb-4 text-lg font-semibold">Rentabilidad</div>
       <div
-        class="
-          flex flex-col
-          w-[80%]
-          bg-fondo-gris-claro
-          rounded-lg
-          p-4
-          justify-center
-          items-center
-          space-y-3
-        "
+        class="flex w-[80%] flex-col items-center justify-center space-y-3 rounded-lg bg-fondo-gris-claro p-4"
       >
-        <div class="flex flex-col w-[60%] h-[60%]">
+        <div class="flex h-[60%] w-[60%] flex-col">
           <label class="flex w-full justify-start text-base" for="iTotal"
             >Bruta</label
           >
           <input
-            class="
-              w-full
-              h-full
-              rounded-md
-              bg-fondo-gris
-              border-none
-              text-lg
-              font-semibold
-            "
+            class="h-full w-full rounded-md border-none bg-fondo-gris text-lg font-semibold"
             type="text"
             id="rBruta"
-            :value="(rentabilidadAvance.bruta ? rentabilidadAvance.bruta : props.data.val().rentabilidad.bruta) + '%'"
+            :value="
+              (rentabilidadAvance.bruta
+                ? rentabilidadAvance.bruta
+                : props.data.val().rentabilidad.bruta) + '%'
+            "
             readonly
           />
         </div>
-        <div class="flex flex-col w-[60%] h-[60%]">
+        <div class="flex h-[60%] w-[60%] flex-col">
           <label class="flex w-full justify-start text-base" for="iTotal"
             >Neta</label
           >
           <input
-            class="
-              w-full
-              h-full
-              rounded-md
-              bg-fondo-gris
-              border-none
-              text-lg
-              font-semibold
-            "
+            class="h-full w-full rounded-md border-none bg-fondo-gris text-lg font-semibold"
             type="text"
             id="rBruta"
-            :value="(rentabilidadAvance.neta ? rentabilidadAvance.neta : props.data.val().rentabilidad.neta) + '%'"
+            :value="
+              (rentabilidadAvance.neta
+                ? rentabilidadAvance.neta
+                : props.data.val().rentabilidad.neta) + '%'
+            "
             readonly
           />
         </div>
@@ -342,6 +246,7 @@ import {
   get,
   update,
 } from "firebase/database";
+import { store } from "@/store";
 
 const props = defineProps(["data"]);
 const tiempoAvance = ref(0);
@@ -354,9 +259,41 @@ const avance = ref([]);
 const nuevoAvance = ref([]);
 const sumaAvance = ref(0);
 const rentabilidadAvance = ref({
-  bruta:  null,
+  bruta: null,
   neta: null,
-})
+});
+
+const rentabilidad = (ingreso) => {
+  update(refDB(database, `avanceProyectos/${props.data.key}`), {
+    rentabilidad: {
+        bruta: (
+          (1 -
+            (props.data.val().costoExterno.manoDeObra +
+              props.data.val().costoExterno.material +
+              (props.data.val().costoInterno.manoDeObra + props.data.val().costoInterno.material)) /
+              ingreso) *
+          100
+        ).toFixed(2),
+        neta: (
+          (1 -
+            (props.data.val().costoExterno.manoDeObra +
+              props.data.val().costoExterno.material +
+              (props.data.val().costoInterno.manoDeObra + props.data.val().costoInterno.material) +
+              (props.data.val().gastos.fijo +
+                props.data.val().gastos.nomina +
+                props.data.val().gastos.otros +
+                props.data.val().gastos.variable)) /
+              ingreso) *
+          100
+        ).toFixed(2),
+      },
+  })
+}
+
+const calcPoliza = (index) => {
+  store.commit('ingresoFinalSave', (props.data.val().ingresoTotal * (sumaAvance.value / 100)))
+  rentabilidad((props.data.val().ingresoTotal * (sumaAvance.value / 100)));
+};
 
 const guardar = (index) => {
   get(child(refAvance, `avanceProyectos/${props.data.key}`)).then(
@@ -384,10 +321,11 @@ const guardar = (index) => {
             avance: sumaAvance.value,
           }
         ).then(() => {
-          porcentaje.value[index] =
-            ((sumaAvance.value /
+          porcentaje.value[index] = (
+            (sumaAvance.value /
               Object.values(props.data.val().volumetrias)[index].cantidad) *
-            100).toFixed(2);
+            100
+          ).toFixed(2);
           avance.value[index] = sumaAvance.value;
           nuevoAvance.value[index] = 0;
         });
@@ -401,10 +339,21 @@ const guardar = (index) => {
         update(refDB(database, `avanceProyectos/${props.data.key}`), {
           tiempo: sumaAvance.value,
         }).then(() => {
-          tiempoPorcentaje.value = 
-            ((sumaAvance.value / props.data.val().tiempo) * 100).toFixed(2);
+          tiempoPorcentaje.value = (
+            (sumaAvance.value / props.data.val().tiempo) *
+            100
+          ).toFixed(2);
           tiempoAvance.value = sumaAvance.value;
           tiempoNuevoAvance.value = 0;
+        });
+      }
+      if (
+        props.data.val().unidad == "Poliza" &&
+        Object.keys(props.data.val().volumetrias)[index] === "Poliza"
+      ) {
+        calcPoliza(index);
+        update(refDB(database, `avanceProyectos/${props.data.key}`), {
+          ingresoFinal: store.state.b.ingresoFinal == 0 ? null : store.state.b.ingresoFinal,
         });
       }
     }
@@ -412,9 +361,9 @@ const guardar = (index) => {
 };
 
 if (props.data.val().volumetrias)
-for (const element in props.data.val().volumetrias) {
-  nuevoAvance.value.push(0);
-}
+  for (const element in props.data.val().volumetrias) {
+    nuevoAvance.value.push(0);
+  }
 
 await get(child(refAvance, `avanceProyectos/${props.data.key}`)).then(
   (snapshot) => {
@@ -423,16 +372,20 @@ await get(child(refAvance, `avanceProyectos/${props.data.key}`)).then(
       if (snapshot.hasChild("volumetrias")) {
         Object.values(snapshot.val().volumetrias).forEach((element) => {
           avance.value.push(element.avance);
-          porcentaje.value[i] =
-            ((element.avance /
+          porcentaje.value[i] = (
+            (element.avance /
               Object.values(props.data.val().volumetrias)[i].cantidad) *
-            100).toFixed(2);
+            100
+          ).toFixed(2);
           i++;
         });
       }
       if (snapshot.hasChild("tiempo")) {
         tiempoAvance.value = snapshot.val().tiempo;
-        tiempoPorcentaje.value = ((snapshot.val().tiempo / props.data.val().tiempo) * 100).toFixed(2);
+        tiempoPorcentaje.value = (
+          (snapshot.val().tiempo / props.data.val().tiempo) *
+          100
+        ).toFixed(2);
       }
     } else {
       for (const element in props.data.val().volumetrias) {
@@ -440,10 +393,13 @@ await get(child(refAvance, `avanceProyectos/${props.data.key}`)).then(
         porcentaje.value.push(0);
       }
     }
-    if(snapshot.hasChild("rentabilidad")) {
+    if (snapshot.hasChild("rentabilidad")) {
       rentabilidadAvance.value.bruta = snapshot.val().rentabilidad.bruta;
       rentabilidadAvance.value.neta = snapshot.val().rentabilidad.neta;
     }
+    if(snapshot.hasChild("ingresoFinal")){
+      store.commit('ingresoFinalSave', snapshot.val().ingresoFinal)
+    } else store.commit('ingresoFinalSave', 0.00)
   }
 );
 </script>
