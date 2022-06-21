@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col h-auto w-full min-w-fit transition-all duration-600 select-none" :class="[$store.state.a.open ? 'opacity-100': 'opacity-0']">
+  <div class="flex flex-col h-full w-full min-w-fit transition-all duration-600 select-none" :class="[$store.state.a.open ? 'opacity-100': 'opacity-0']">
     <!-- Bienvenida de usuario -->
     <div class="flex w-full justify-center items-center space-x-4 py-8" >
       <!-- ícono -->
@@ -72,6 +72,7 @@
         <div :class="[$route.path == '/proyectos' ? 'text-blue-siosapp' : 'text-black']">Proyectos</div>
       </li>
     </ul>
+    <div class="flex justify-center items-end h-full text-sm">v0.6.2</div>
   </div>
 </template>
 
