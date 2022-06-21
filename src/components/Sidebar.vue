@@ -72,14 +72,13 @@
         <div :class="[$route.path == '/proyectos' ? 'text-blue-siosapp' : 'text-black']">Proyectos</div>
       </li>
     </ul>
-    <div class="flex justify-center items-end h-full text-sm">v0.6.2</div>
+    <div class="flex justify-center items-end h-full text-sm">v{{ versionAPP }}</div>
   </div>
 </template>
 
-<script>
-export { ref } from "vue";
+<script setup>
+import { ref } from "vue";
+import {version} from '../../package.json';
 
-export default {
-  setup() {},
-};
+const versionAPP = ref(version)
 </script>
