@@ -1,6 +1,6 @@
 {
   "name": "siosapp-business",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
