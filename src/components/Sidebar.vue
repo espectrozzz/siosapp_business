@@ -20,8 +20,8 @@
       </div>
       <!-- Rol y nombre de usuario -->
       <div class="flex flex-col">
-        <div class="text-xs">Gerente RRHH</div>
-        <div class="font-semibold text-lg">Diana Panfilo</div>
+        <div class="text-xs">Departamente</div>
+        <div class="font-semibold text-lg">Usuario</div>
       </div>
     </div>
     <!-- Fin bienvenida de usuario -->
@@ -33,8 +33,8 @@
     <!-- Fin separador -->
     <!-- Items para navegar -->
     <ul class="flex w-full px-8 mt-8 flex-col space-y-4 font-semibold">
-      <li class="flex space-x-4 w-full cursor-pointer py-2 px-4 rounded-xl transition-all duration-200" :class="[$route.path == '/home' ? 'bg-blue-siosapp/10': '']" @click="$router.push('/home')">
-        <div class="flex justify-center items-center w-[20%] h-auto" :class="[$route.path == '/home' ? 'text-blue-siosapp' : 'text-black']">
+      <li class="flex space-x-4 w-full cursor-pointer py-2 px-4 rounded-xl transition-all duration-200" :class="[$route.path == '/dashboard' ? 'bg-blue-siosapp/10': '']" @click="$router.push('/dashboard')">
+        <div class="flex justify-center items-center w-[20%] h-auto" :class="[$route.path == '/dashboard' ? 'text-blue-siosapp' : 'text-black']">
           <svg
             width="22"
             viewBox="0 0 17 18"
@@ -49,7 +49,7 @@
             />
           </svg>
         </div>
-        <div :class="[$route.path == '/home' ? 'text-blue-siosapp' : 'text-black']">Home</div>
+        <div :class="[$route.path == '/dashboard' ? 'text-blue-siosapp' : 'text-black']">Dashboard</div>
       </li>
       <li
         class="flex space-x-4 w-full cursor-pointer py-2 px-4 rounded-xl transition-all duration-200"

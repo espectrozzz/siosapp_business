@@ -1,4 +1,4 @@
-import Home from './views/Home.vue'
+import Dashboard from './views/Dashboard.vue'
 import About from './views/About.vue'
 import NotFound from './views/NotFound.vue'
 import Proyectos from './views/Proyectos.vue'
@@ -8,14 +8,14 @@ import ProyectosFinalizados from './views/ProyectosFinalizados.vue'
 
 /** @type {import('vue-router').RouterOptions['routes']} */
 export const routes = [
-  { path: '/', component: Home, meta: { title: 'Home' } },
+  // { path: '/', component: Dashboard, meta: { title: 'Dashboard' } },
   {
     path: '/proyectos', component: Proyectos, meta: { title: 'Proyectos' },
   },
   { path: '/proyectos/:key', component: ProyectosPendientes, meta: { title: 'Proyectos pendientes' } },
   { path: '/proyectos/en-proceso/:key', component: ProyectosProceso, meta: { title: 'Proyectos en proceso' } },
   { path: '/proyectos/finalizados/:key', component: ProyectosFinalizados, meta: { title: 'Proyectos finalizados' } },
-  { path: '/home', component: Home, meta: { title: 'Home' } },
+  { path: '/dashboard', component: Dashboard, meta: { title: 'Dashboard' } },
   {
     path: '/about',
     meta: { title: 'About' },
