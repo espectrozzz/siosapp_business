@@ -1,39 +1,45 @@
 <template>
-  <div class="flex flex-col w-full h-full space-y-14">
+  <div class="flex h-full w-full flex-col space-y-14">
     <!-- Nuevos proyectos / pendientes -->
-    <div class="flex w-full h-[32%] min-h-[32%]">
-      <div class="w-[12%] text-xl font-semibold min-w-min">
-        Agregar nuevo proyecto
-      </div>
-      <div class="h-full w-[5%]">
-        <ProyectoNuevo />
-      </div>
-      <!-- pendientes -->
-      <div class="scroll-barra flex flex-row w-[83%] h-[100%] overflow-auto snap-x scroll-auto cursor-pointer select-none">
+    <div
+      class="flex min-h-[50%] w-full flex-col rounded-3xl bg-[#E9F0FC] px-12 py-8"
+    >
+      <div class="flex h-full w-full space-x-4">
+        <div class="w-[15%] min-w-min break-words text-xl font-semibold">
+          Agregar nuevo proyecto
+        </div>
+        <div class="h-full w-[5%]">
+          <ProyectoNuevo />
+        </div>
+        <!-- pendientes -->
         <div
-          class="
-            flex
-            snap-start
-            ProyectoTarjetaEnProceso
-            w-[20%]
-            min-w-[20%]
-            max-w-[40%]
-            h-full
-            space-x-none
-            py-2
-            px-4
-          "
-          v-for="(item, index) in proyectosPendientes"
-          :key="index"
+          class="flex h-full w-[60%] cursor-pointer select-none snap-x flex-row"
         >
-
-          <proyectos-tarjeta-pendiente-vue :data="item" />
+          <Carousel
+            :settings="settings"
+            :breakpoints="breakpoints"
+            class="h-full w-full"
+          >
+            <Slide
+              class="flex h-full w-full min-w-[40%] py-2 px-4"
+              v-for="(item, index) in proyectosPendientes"
+              :key="index"
+              ><proyectos-tarjeta-pendiente-vue :data="item"
+            /></Slide>
+            <template #addons>
+              <Navigation class="bg-red-200" />
+            </template>
+          </Carousel>
+        </div>
+        <div class="flex h-full w-[23%] select-none py-2 px-4">
+          <tarjeta-todos-proyectos />
         </div>
       </div>
     </div>
     <!-- Fin nuevos proyectos / pendientes -->
     <!-- Pestañas -->
-    <div class="flex flex-col bg-white w-full h-full">
+    <div class="flex h-full w-full flex-col bg-white">
+      <div class="mb-6 text-xl font-semibold">Unidades de Negocio</div>
       <TabGroup @change="cambioPestana">
         <TabList class="border-b-2">
           <Tab
@@ -42,8 +48,12 @@
             v-for="item in unidadesNegocio"
             :key="item"
             ><button
-              class="px-14 py-2 bg-white border-b-2"
-              :class="[selected ? 'border-black font-semibold' : 'border-none']"
+              class="select-none border-b-2 bg-white px-14 py-2"
+              :class="[
+                selected
+                  ? 'border-[#2166E5] font-semibold text-[#2166E5]'
+                  : 'border-none text-[#7C8495]',
+              ]"
             >
               {{ item.name }}
             </button></Tab
@@ -52,7 +62,10 @@
         <TabPanels>
           <TabPanel>
             <div class="mt-4">
-              <proyectos-pestanas-todos :enProceso="proyectosEnProceso" :finalizados="proyectosFinalizados"/>
+              <proyectos-pestanas-todos
+                :enProceso="proyectosEnProceso"
+                :finalizados="proyectosFinalizados"
+              />
             </div>
           </TabPanel>
           <TabPanel
@@ -111,6 +124,8 @@ import {
   orderByKey,
 } from "@firebase/database";
 import { async } from "@firebase/util";
+import TarjetaTodosProyectos from "@/components/TarjetaTodosProyectos.vue";
+import { Carousel, Navigation, Slide } from "vue3-carousel";
 
 const database = getDatabase();
 const store = useStore();
@@ -131,7 +146,7 @@ const unidadesNegocio = ref([
 
 const drag = () => {
   alert("Hola");
-}
+};
 
 const listaProyectos = query(proyectosRef, orderByKey());
 
@@ -177,13 +192,31 @@ get(listaProyectos).then((snapshot) => {
   snapshotData.value = snapshot.val();
   cambioPestana(0);
 });
+
+const settings = {
+  itemsToShow: 1,
+  snapAlign: "center",
+};
+
+const breakpoints = {
+  // 700px and up
+  700: {
+    itemsToShow: 4,
+    snapAlign: "center",
+  },
+  // 1024 and up
+  1024: {
+    itemsToShow: 2.5,
+    snapAlign: "start",
+  },
+};
 </script>
 
 <style>
-.scroll-barra::-webkit-scrollbar{
+.scroll-barra::-webkit-scrollbar {
   height: 8px;
 }
- /* Estilos barra (thumb) de scroll */
+/* Estilos barra (thumb) de scroll */
 .scroll-barra::-webkit-scrollbar-thumb {
   background: #ccc;
   border-radius: 4px;
@@ -198,15 +231,25 @@ get(listaProyectos).then((snapshot) => {
   box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
 }
 
- /* Estilos track de scroll */
+/* Estilos track de scroll */
 .scroll-barra::-webkit-scrollbar-track {
   background: #e1e1e1;
   border-radius: 4px;
 }
 
-.scroll-barra::-webkit-scrollbar-track:hover, 
+.scroll-barra::-webkit-scrollbar-track:hover,
 .scroll-barra::-webkit-scrollbar-track:active {
   background: #d4d4d4;
 }
-</style>
 
+.carousel__viewport {
+  height: 100%;
+}
+.carousel__track {
+  height: 100%;
+}
+.carousel__prev--in-active,
+.carousel__next--in-active {
+  display: none;
+}
+</style>

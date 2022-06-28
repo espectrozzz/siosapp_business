@@ -20,7 +20,7 @@
       </div>
       <!-- Rol y nombre de usuario -->
       <div class="flex flex-col">
-        <div class="text-xs">Departamente</div>
+        <div class="text-xs">Departamento</div>
         <div class="font-semibold text-lg">Usuario</div>
       </div>
     </div>

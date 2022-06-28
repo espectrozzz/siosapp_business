@@ -13,9 +13,14 @@ module.exports = {
         'fondo-gris-claro': '#F2F2F2',
         'fondo-principal': '#E5E5E5',
         'blue-siosapp': '#2166E5',
+        'azul-principal': '#E9F0FC',
+        'azul-letras': '#2166E5',
       },
       boxShadow: {
         'right': '0 6px 15px -2px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)'
+      },
+      backgroundImage: {
+        'fondo-tarjeta1': "url('img/tarjeta_fondo_1.svg')",
       },
     },
   },
