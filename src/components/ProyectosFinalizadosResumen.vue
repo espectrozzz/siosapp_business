@@ -74,12 +74,22 @@
         </div>
       </div>
     </div>
-    <div class="flex w-full items-center justify-center text-[#2166E5] mt-12">
-      <div @click="detalle = detalle ? false : true" class="h-auto w-auto cursor-pointer hover:underline">
+    <div class="mt-12 flex w-full items-center justify-center text-[#2166E5]">
+      <div
+        @click="detalle = detalle ? false : true"
+        class="h-auto w-auto cursor-pointer hover:underline"
+      >
         Ver detalles
       </div>
     </div>
-    <div v-if="detalle"><ProyectosFinalizadosDetalle :data="props.data" :dataFinal="props.dataFinal" /></div>
+    <div v-if="detalle">
+      <ProyectosFinalizadosDetalle
+        :data="props.data"
+        :dataFinal="props.dataFinal"
+        :coloresRentabilidadFondo="props.coloresRentabilidadFondo"
+        :coloresRentabilidadTexto="props.coloresRentabilidadTexto"
+      />
+    </div>
   </div>
 </template>
 

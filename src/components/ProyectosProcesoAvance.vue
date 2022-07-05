@@ -268,29 +268,40 @@ const rentabilidad = (ingreso) => {
     rentabilidad: {
       bruta: (
         (1 -
-          (props.data.val().costoExterno.manoDeObra
+          ((props.data.val().costoExterno.manoDeObra
             ? props.data.val().costoExterno.manoDeObra
-            : 0 + props.data.val().costoExterno.material
+            : 0) + (props.data.val().costoExterno.material
             ? props.data.val().costoExterno.material
-            : 0 +
-              (props.data.val().costoInterno.manoDeObra
+            : 0) +
+              ((props.data.val().costoInterno.manoDeObra
                 ? props.data.val().costoInterno.manoDeObra
-                : 0 + props.data.val().costoInterno.material
+                : 0) + (props.data.val().costoInterno.material
                 ? props.data.val().costoInterno.material
-                : 0)) /
+                : 0))) /
             ingreso) *
         100
       ).toFixed(2),
       neta: (
         (1 -
-          (props.data.val().costoExterno.manoDeObra ? props.data.val().costoExterno.manoDeObra : 0 +
-            props.data.val().costoExterno.material ? props.data.val().costoExterno.material : 0 +
-            (props.data.val().costoInterno.manoDeObra ? props.data.val().costoInterno.manoDeObra : 0 +
-              props.data.val().costoInterno.material ? props.data.val().costoInterno.material : 0) +
-            (props.data.val().gastos.fijo ? props.data.val().gastos.fijo : 0 +
-              props.data.val().gastos.nomina ? props.data.val().gastos.nomina : 0 +
-              props.data.val().gastos.otros ? props.data.val().gastos.otros : 0 +
-              props.data.val().gastos.variable ? props.data.val().gastos.variable : 0)) /
+          ((props.data.val().costoExterno.manoDeObra
+            ? props.data.val().costoExterno.manoDeObra
+            : 0) + (props.data.val().costoExterno.material
+            ? props.data.val().costoExterno.material
+            : 0) +
+              ((props.data.val().costoInterno.manoDeObra
+                ? props.data.val().costoInterno.manoDeObra
+                : 0) + (props.data.val().costoInterno.material
+                ? props.data.val().costoInterno.material
+                : 0)) +
+              ((props.data.val().gastos.fijo
+                ? props.data.val().gastos.fijo
+                : 0) + (props.data.val().gastos.nomina
+                ? props.data.val().gastos.nomina
+                : 0) + (props.data.val().gastos.otros
+                ? props.data.val().gastos.otros
+                : 0) + (props.data.val().gastos.variable
+                ? props.data.val().gastos.variable
+                : 0))) /
             ingreso) *
         100
       ).toFixed(2),
