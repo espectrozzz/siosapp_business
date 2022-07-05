@@ -1,184 +1,44 @@
 <template>
-  <div class="flex flex-col justify-start w-full h-full">
-    <div class="flex w-full">
-      <div class="flex w-[35%]">
-        <Suspense>
-          <proyectos-finalizados-detalle-tarjeta
-            :data="props.data"
-            :keyData="props.keyData"
-          />
-        </Suspense>
-      </div>
-      <div class="flex items-center w-[65%]">
-        <div class="flex justify-around w-full h-[75%]">
+  <div class="mb-2 flex h-full w-full">
+    <div class="flex w-[30%] flex-col bg-blue-200">
+      <div class="relative rounded-xl bg-red-200 p-8">
+        <div
+          class="relative mx-auto flex h-24 w-full max-w-md items-center gap-6 overflow-visible rounded-xl bg-[#FAFAFA] ring-1 ring-black/5"
+        >
           <div
-            class="
-              flex flex-col
-              w-[30%]
-              h-fit
-              border-dashed border-2 border-fondo-gris
-              rounded-lg
-              pt-4
-              pb-6
-            "
+            class="absolute -left-6 flex h-32 w-32 flex-col items-center justify-center rounded-full bg-white shadow-lg"
           >
-            <div class="flex w-full justify-center">Rentabilidad Bruta</div>
-            <div class="flex justify-center mt-4 w-full">
-              <div
-                class="
-                  flex
-                  justify-center
-                  items-center
-                  font-semibold
-                  text-lg
-                  w-48
-                  h-48
-                  bg-fondo-gris
-                  rounded-full
-                "
+            <div class="text-xs">Tiempo total</div>
+            <div class="text-lg font-semibold">
+              {{ props.data.tiempo }} Días
+            </div>
+          </div>
+          <div class="flex flex-col py-5 pl-28">
+            <div>Días realizados {{ props.dataFinal.tiempo }}</div>
+            <div class="mb-1 flex justify-between">
+              <span class="text-base font-medium text-blue-700 dark:text-white"
+                >Flowbite</span
               >
-                {{
-                  props.rentabilidadFinal.bruta
-                    ? props.rentabilidadFinal.bruta
-                    : props.data.rentabilidad.bruta
-                }}%
-              </div>
-            </div>
-            <div class="flex w-full justify-around mt-2">
-              <div v-show="props.rentabilidadFinal.bruta" class="flex flex-col">
-                <div>Inicial</div>
-                <div>
-                  {{
-                    props.rentabilidadFinal.bruta
-                      ? props.data.rentabilidad.bruta + "%"
-                      : ""
-                  }}
-                </div>
-              </div>
-              <div class="flex flex-col items-center">
-                <div>Efectividad</div>
-                <div>{{ props.efectividad.bruta }}%</div>
-              </div>
-            </div>
-          </div>
-          <!-- Fin tarjeta rentabilidad bruta -->
-          <!-- Tarjeta rentabilidad neta -->
-          <div
-            class="
-              flex flex-col
-              w-[30%]
-              h-fit
-              border-dashed border-2 border-fondo-gris
-              rounded-lg
-              pt-4
-              pb-6
-            "
-          >
-            <div class="flex w-full justify-center">Rentabilidad Neta</div>
-            <div class="flex justify-center mt-4 w-full">
-              <div
-                class="
-                  flex
-                  justify-center
-                  items-center
-                  font-semibold
-                  text-lg
-                  w-48
-                  h-48
-                  bg-fondo-gris
-                  rounded-full
-                "
+              <span class="text-sm font-medium text-blue-700 dark:text-white"
+                >45%</span
               >
-                {{
-                  props.rentabilidadFinal.neta
-                    ? props.rentabilidadFinal.neta
-                    : props.data.rentabilidad.neta
-                }}%
-              </div>
             </div>
-            <div class="flex w-full justify-around mt-2">
-              <div v-show="props.rentabilidadFinal.neta" class="flex flex-col">
-                <div>Inicial</div>
-                <div>
-                  {{
-                    props.rentabilidadFinal.neta
-                      ? props.data.rentabilidad.neta + "%"
-                      : ""
-                  }}
-                </div>
-              </div>
-              <div class="flex flex-col items-center">
-                <div>Efectividad</div>
-                <div>{{ props.efectividad.neta }}%</div>
-              </div>
-            </div>
-          </div>
-          <!-- Fin tarjeta rentabilidad bruta -->
-        </div>
-      </div>
-    </div>
-    <div class="flex justify-between w-full h-full mt-4">
-        <!-- Tarjeta costos / gastos -->
-      <div
-        class="
-          flex flex-col
-          bg-fondo-gris-claro
-          w-[40%]
-          rounded-lg
-          px-8
-          py-2
-          space-y-2
-        "
-      >
-        <!-- Costo interno -->
-        <div class="flex space-x-6" v-if="data.costoInterno">
-          <div class="w-16 h-14 bg-fondo-gris rounded-md"></div>
-          <div class="flex flex-col w-full">
-            Costo Interno
-            <div class="flex w-full items-end justify-between">
-              <span class="text-lg font-semibold">{{
-                data.costoInterno.total
-              }}</span>
-              MXN <button class="hover:underline">Ver Detalles</button>
-            </div>
-          </div>
-        </div>
-        <div class="flex space-x-6" v-if="data.costoExterno">
-          <div class="w-16 h-14 bg-fondo-gris rounded-md"></div>
-          <div class="flex flex-col w-full">
-            Costo Externo
-            <div class="flex w-full items-end justify-between">
-              <span class="text-lg font-semibold">{{
-                data.costoExterno.total
-              }}</span>
-              MXN <button class="hover:underline">Ver Detalles</button>
-            </div>
-          </div>
-        </div>
-        <div class="flex space-x-6" v-if="data.gastos">
-          <div class="w-16 h-14 bg-fondo-gris rounded-md"></div>
-          <div class="flex flex-col w-full">
-            Gastos
-            <div class="flex w-full items-end justify-between">
-              <span class="text-lg font-semibold">{{ data.gastos.total }}</span>
-              MXN <button class="hover:underline">Ver Detalles</button>
+            <div class="h-2.5 w-full rounded-full bg-gray-200 dark:bg-gray-700">
+              <div
+                class="h-2.5 rounded-full bg-[#131140]"
+                :style="'width:' + ((props.dataFinal.tiempo / props.data.tiempo) * 100) + '%'"
+              ></div>
             </div>
           </div>
         </div>
       </div>
-      <!-- Fin tarjeta costos/gastos -->
     </div>
   </div>
 </template>
 
 <script setup>
-import ProyectosFinalizadosDetalleTarjeta from "./ProyectosFinalizadosDetalleTarjeta.vue";
+import { ref } from 'vue'
 
-const props = defineProps([
-  "data",
-  "keyData",
-  "rentabilidadFinal",
-  "efectividad",
-]);
-console.log(props.keyData);
+const porcentaje = ref(100)
+const props = defineProps(["data", "dataFinal"]);
 </script>

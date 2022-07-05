@@ -1,78 +1,150 @@
 <template>
-  <div class="flex flex-col w-full h-full px-6 py-6 space-y-6">
-    <div class="flex w-full h-[20%]">
+  <div class="flex h-full w-full flex-col space-y-12 px-6 py-6">
+    <div class="flex h-auto w-full justify-evenly">
+      <div class="flex h-full w-[25%] items-center justify-center">
+        <div
+          :class="[colorDegradado(), 'h-32 w-32 rounded-full bg-red-200 p-1']"
+        >
+          <div
+            :class="[
+              colorFondo(),
+              'flex h-full w-full flex-col items-center justify-center rounded-full border-8 border-white',
+            ]"
+          >
+            <div class="text-xs text-white">Unidad</div>
+            <div class="text-sm font-semibold text-white">
+              {{ data.unidad }}
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- Tarjeta de proyecto -->
-      <div class="flex flex-col w-[40%] items-center w-full">
-        <div class="flex flex-col w-[60%] space-y-4">
-          <div class="flex justify-center text-lg font-semibold">
+      <div class="flex w-[40%] w-full flex-col items-start">
+        <div class="flex w-[60%] flex-col space-y-4">
+          <div class="flex justify-center text-xl font-semibold">
             {{ data.nombre }}
           </div>
           <div class="flex justify-between">
-            <div class="font-semibold">Fecha de inicio:</div>
-            <div>{{ creado }}</div>
+            <div class="text-[#7C8495]">Fecha de inicio:</div>
+            <div class="font-semibold">{{ creado }}</div>
           </div>
           <div class="flex justify-between">
-            <div class="font-semibold">Estado:</div>
-            <div>
+            <div class="text-[#7C8495]">Estado:</div>
+            <div class="font-semibold text-[#2166E5]">
               {{ data.estado }}
             </div>
           </div>
         </div>
       </div>
       <!-- Fin tarjeta de proyecto -->
-      <div class="flex w-[60%] space-x-[10%] items-center">
-        <div class="flex flex-col w-[30%] h-[60%]">
-          <label class="text-base" for="iTotal">Ingreso total</label>
-          <input
-            class="w-full h-full rounded-md bg-fondo-gris border-none"
-            type="text"
-            id="iTotal"
-            :value="iTotal"
-            readonly
-          />
+      <div class="flex w-[60%] items-center space-x-[10%] select-none">
+        <!-- Ingresos -->
+        <div class="flex h-full w-[30%] flex-col">
+          <div class="flex h-full w-full flex-col space-y-4">
+            <div class="flex w-full items-center justify-center">Ingresos</div>
+            <div>
+              <div class="flex flex-col rounded-lg py-2 px-4 shadow-md">
+                <div class="text-sm">{{ iFinal ? "Inicial" : "Final" }}</div>
+                <div class="font-semibold text-[#2166E5]">{{ iTotal }}</div>
+              </div>
+            </div>
+            <div v-if="iFinal">
+              <div class="flex flex-col rounded-lg py-2 px-4 shadow-md">
+                <div class="text-sm">Final</div>
+                <div class="font-semibold text-[#2166E5]">{{ iFinal }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Rentabilidades -->
+        <div class="flex h-full flex-col space-y-4">
+          <div>Rentabilidad inicial</div>
+          <div class="flex w-full justify-center space-x-3.5">
+            <div
+              :class="[
+                colorFondoRentabilidadBruta(),
+                'flex w-auto rounded bg-[#A6C2F5] px-3.5',
+              ]"
+            >
+              <img src="/img/icono_bruta.svg" />
+            </div>
+            <div class="flex flex-col">
+              <div class="flex justify-start text-xs text-[#7C8495]">Bruta</div>
+              <div class="text-base font-semibold">
+                {{ data.rentabilidad.bruta }}%
+              </div>
+            </div>
+          </div>
+          <div class="flex w-full justify-center space-x-3.5">
+            <div
+              :class="[
+                colorFondoRentabilidadNeta(),
+                'flex w-auto rounded px-3.5',
+              ]"
+            >
+              <img src="/img/icono_neta.svg" />
+            </div>
+            <div class="flex flex-col">
+              <div class="flex justify-start text-xs text-[#7C8495]">Neta</div>
+              <div class="text-base font-semibold">
+                {{ data.rentabilidad.neta }}%
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="flex flex-col w-full space-y-2">
-      <!-- Tarjeta en proceso -->
-      <div class="flex w-full space-x-4">
-        <div class="flex space-x-2 w-[50%]">
-          <div>
-            <div class="w-12 h-12 rounded-full bg-fondo-gris"></div>
+    <div class="flex w-full flex-col space-y-4">
+      <div class="flex w-full flex-col space-y-2">
+        <!-- Tarjeta en proceso -->
+        <div class="flex w-full space-x-4">
+          <div class="flex w-[50%] space-x-2">
+            <div class="flex items-center justify-center">
+              <div class="h-4 w-4 rounded-full bg-[#2166E5]"></div>
+            </div>
+            <div class="flex flex-col">
+              <div class="font-semibold">Resultados</div>
+              <div class="text-sm">Logros del proyecto</div>
+            </div>
           </div>
-          <div class="flex flex-col">
-            <div class="font-semibold">Resultados</div>
-            <div class="text-xs">Logros del proyecto</div>
+          <div class="flex w-[50%] justify-end space-x-24">
+            <button
+              class="min-w-[150px] rounded-lg bg-[#2166E5] py-2 px-6 text-white"
+              type="button"
+              @click="$store.commit('openModalReabrirProyecto')"
+            >
+              Reabrir proyecto
+            </button>
           </div>
-        </div>
-        <div class="flex space-x-24 justify-center w-[50%]">
-          <button
-            class="py-2 px-6 min-w-[150px] bg-fondo-gris-claro rounded-lg"
-            type="button"
-            @click="detalle = detalle ? false : true"
-          >
-            Detalle
-          </button>
-          <button
-            class="py-2 px-6 min-w-[150px] bg-fondo-gris-claro rounded-lg"
-            type="button"
-            @click="$store.commit('openModalReabrirProyecto')"
-          >
-            Reabrir proyecto
-          </button>
         </div>
       </div>
+      <div class="flex w-full justify-center">
+        <proyectos-finalizados-resumen
+          v-if="!detalle"
+          :data="data"
+          :dataFinal="dataFinal"
+          :rentabilidadFinal="rentabilidadFinal"
+          :efectividad="efectividad"
+          :coloresRentabilidadFondo="colorRentabilidadFondo"
+          :coloresRentabilidadTexto="colorRentabilidadTexto"
+          :coloresEfectividad="colorEfectividad"
+        />
+        <proyectos-finalizados-detalle
+          v-if="detalle"
+          :data="data"
+          :keyData="$route.params.key"
+          :rentabilidadFinal="rentabilidadFinal"
+          :efectividad="efectividad"
+        />
+      </div>
     </div>
-    <div class="flex w-full">
-      <proyectos-finalizados-resumen v-if="!detalle" :data="data" :rentabilidadFinal="rentabilidadFinal" :efectividad="efectividad" />
-      <proyectos-finalizados-detalle v-if="detalle" :data="data" :keyData="$route.params.key" :rentabilidadFinal="rentabilidadFinal" :efectividad="efectividad"/>
-    </div>
+
     <modal-reabrir-proyecto :keyData="$route.params.key" />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { getDatabase, ref as refDB, get, update } from "firebase/database";
 import ProyectosFinalizadosResumen from "@/components/ProyectosFinalizadosResumen.vue";
 import ProyectosFinalizadosDetalle from "@/components/ProyectosFinalizadosDetalle.vue";
@@ -83,9 +155,10 @@ const database = getDatabase();
 const route = useRoute();
 const detalle = ref(false);
 const data = ref({ nombre: "", rentabilidad: { bruta: 0, neta: 0 } });
+const dataFinal = ref({ rentabilidad: { bruta: 0, neta: 0 } });
 const rentabilidadFinal = ref({
-  bruta: 0,
-  neta: 0,
+  bruta: Number,
+  neta: Number,
 });
 const iTotal = ref(0);
 const creado = ref();
@@ -93,6 +166,123 @@ const efectividad = ref({
   bruta: 0,
   neta: 0,
 });
+const iFinal = ref();
+const colorRentabilidadTexto = ref({
+  neta: String,
+  bruta: String,
+});
+const colorRentabilidadFondo = ref({
+  neta: String,
+  bruta: String,
+});
+const colorEfectividad = ref({
+  texto: String,
+  fondo: String,
+})
+
+const colorFondo = () => {
+  let color;
+  let efectividadTexto;
+  let efectividadFondo;
+  switch (data.value.unidad) {
+    case "Poliza":
+      color = "bg-poliza";
+      efectividadFondo = "bg-poliza";
+      efectividadTexto = "text-poliza";
+      break;
+    case "Megacable":
+      color = "bg-megacable";
+      efectividadFondo = "bg-megacable";
+      efectividadTexto = "text-megacable";
+      break;
+    case "Infraestructura":
+      color = "bg-infraestructura";
+      efectividadFondo = "bg-infraestructura";
+      efectividadTexto = "text-infraestructura";
+      break;
+    case "Ventas":
+      color = "bg-ventas";
+      efectividadFondo = "bg-ventas";
+      efectividadTexto = "text-ventas";
+      break;
+  }
+  colorEfectividad.value.fondo = efectividadFondo;
+  colorEfectividad.value.texto = efectividadTexto;
+  return color;
+};
+
+const colorFondoRentabilidadBruta = () => {
+  let color;
+  let grafico;
+  switch (data.value.unidad) {
+    case "Poliza":
+      color = "bg-poliza-3";
+      grafico = "text-poliza-3";
+      break;
+    case "Megacable":
+      color = "bg-megacable-3";
+      grafico = "text-megacable-3";
+      break;
+    case "Infraestructura":
+      color = "bg-infraestructura-3";
+      grafico = "text-infraestructura-3";
+      break;
+    case "Ventas":
+      color = "bg-ventas-3";
+      grafico = "text-ventas-3";
+      break;
+  }
+  colorRentabilidadFondo.value.bruta = color;
+  colorRentabilidadTexto.value.bruta = grafico;
+  return color;
+};
+
+const colorFondoRentabilidadNeta = () => {
+  let color;
+  let grafico;
+  switch (data.value.unidad) {
+    case "Poliza":
+      color = "bg-poliza-2";
+      grafico = "text-poliza-2";
+      break;
+    case "Megacable":
+      color = "bg-megacable-2";
+      grafico = "text-megacable-2";
+      break;
+    case "Infraestructura":
+      color = "bg-infraestructura-2";
+      grafico = "text-infraestructura-2";
+      break;
+    case "Ventas":
+      color = "bg-ventas-2";
+      grafico = "text-ventas-2";
+      break;
+  }
+  colorRentabilidadFondo.value.neta = color;
+  colorRentabilidadTexto.value.neta = grafico;
+  return color;
+};
+
+const colorDegradado = () => {
+  let colorDegradado;
+  switch (data.value.unidad) {
+    case "Poliza":
+      colorDegradado = "bg-gradient-to-tr from-poliza via-poliza-2 to-poliza-3";
+      break;
+    case "Megacable":
+      colorDegradado =
+        "bg-gradient-to-tr from-megacable via-megacable-2 to-megacable-3";
+      break;
+    case "Infraestructura":
+      colorDegradado =
+        "bg-gradient-to-tr from-infraestructura via-infraestructura-2 to-infraestructura-3";
+      break;
+    case "Ventas":
+      colorDegradado = "bg-gradient-to-tr from-ventas via-ventas-2 to-ventas-3";
+      break;
+  }
+  return colorDegradado;
+};
 
 onMounted(() => {
   get(refDB(database, `proyectos/${route.params.key}`))
@@ -116,20 +306,27 @@ onMounted(() => {
       get(refDB(database, `avanceProyectos/${route.params.key}`)).then(
         (snapshot) => {
           if (snapshot.exists()) {
+            dataFinal.value = snapshot.val();
             if (snapshot.hasChild("rentabilidad")) {
               if (snapshot.hasChild("rentabilidad/bruta")) {
                 rentabilidadFinal.value.bruta =
                   snapshot.val().rentabilidad.bruta;
-                  efectividad.value.bruta = ((rentabilidadFinal.value.bruta * 100) / data.value.rentabilidad.bruta).toFixed(2);
+                efectividad.value.bruta =
+                  (rentabilidadFinal.value.bruta * 100) /
+                  data.value.rentabilidad.bruta;
               }
               if (snapshot.hasChild("rentabilidad/neta")) {
                 rentabilidadFinal.value.neta = snapshot.val().rentabilidad.neta;
-                efectividad.value.neta = ((rentabilidadFinal.value.neta * 100) / data.value.rentabilidad.neta).toFixed(2);
-                }
+                efectividad.value.neta =
+                  (rentabilidadFinal.value.neta * 100) /
+                  data.value.rentabilidad.neta;
+              }
             } else {
               efectividad.value.bruta = 100;
               efectividad.value.neta = 100;
             }
+            if (snapshot.hasChild("ingresoFinal"))
+              iFinal.value = snapshot.val().ingresoFinal;
           }
         }
       );

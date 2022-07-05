@@ -266,33 +266,44 @@ const rentabilidadAvance = ref({
 const rentabilidad = (ingreso) => {
   update(refDB(database, `avanceProyectos/${props.data.key}`), {
     rentabilidad: {
-        bruta: (
-          (1 -
-            (props.data.val().costoExterno.manoDeObra +
-              props.data.val().costoExterno.material +
-              (props.data.val().costoInterno.manoDeObra + props.data.val().costoInterno.material)) /
-              ingreso) *
-          100
-        ).toFixed(2),
-        neta: (
-          (1 -
-            (props.data.val().costoExterno.manoDeObra +
-              props.data.val().costoExterno.material +
-              (props.data.val().costoInterno.manoDeObra + props.data.val().costoInterno.material) +
-              (props.data.val().gastos.fijo +
-                props.data.val().gastos.nomina +
-                props.data.val().gastos.otros +
-                props.data.val().gastos.variable)) /
-              ingreso) *
-          100
-        ).toFixed(2),
-      },
-  })
-}
+      bruta: (
+        (1 -
+          (props.data.val().costoExterno.manoDeObra
+            ? props.data.val().costoExterno.manoDeObra
+            : 0 + props.data.val().costoExterno.material
+            ? props.data.val().costoExterno.material
+            : 0 +
+              (props.data.val().costoInterno.manoDeObra
+                ? props.data.val().costoInterno.manoDeObra
+                : 0 + props.data.val().costoInterno.material
+                ? props.data.val().costoInterno.material
+                : 0)) /
+            ingreso) *
+        100
+      ).toFixed(2),
+      neta: (
+        (1 -
+          (props.data.val().costoExterno.manoDeObra ? props.data.val().costoExterno.manoDeObra : 0 +
+            props.data.val().costoExterno.material ? props.data.val().costoExterno.material : 0 +
+            (props.data.val().costoInterno.manoDeObra ? props.data.val().costoInterno.manoDeObra : 0 +
+              props.data.val().costoInterno.material ? props.data.val().costoInterno.material : 0) +
+            (props.data.val().gastos.fijo ? props.data.val().gastos.fijo : 0 +
+              props.data.val().gastos.nomina ? props.data.val().gastos.nomina : 0 +
+              props.data.val().gastos.otros ? props.data.val().gastos.otros : 0 +
+              props.data.val().gastos.variable ? props.data.val().gastos.variable : 0)) /
+            ingreso) *
+        100
+      ).toFixed(2),
+    },
+  });
+};
 
 const calcPoliza = (index) => {
-  store.commit('ingresoFinalSave', (props.data.val().ingresoTotal * (sumaAvance.value / 100)))
-  rentabilidad((props.data.val().ingresoTotal * (sumaAvance.value / 100)));
+  store.commit(
+    "ingresoFinalSave",
+    props.data.val().ingresoTotal * (sumaAvance.value / 100)
+  );
+  rentabilidad(props.data.val().ingresoTotal * (sumaAvance.value / 100));
 };
 
 const guardar = (index) => {
@@ -353,7 +364,8 @@ const guardar = (index) => {
       ) {
         calcPoliza(index);
         update(refDB(database, `avanceProyectos/${props.data.key}`), {
-          ingresoFinal: store.state.b.ingresoFinal == 0 ? null : store.state.b.ingresoFinal,
+          ingresoFinal:
+            store.state.b.ingresoFinal == 0 ? null : store.state.b.ingresoFinal,
         });
       }
     }
@@ -397,9 +409,9 @@ await get(child(refAvance, `avanceProyectos/${props.data.key}`)).then(
       rentabilidadAvance.value.bruta = snapshot.val().rentabilidad.bruta;
       rentabilidadAvance.value.neta = snapshot.val().rentabilidad.neta;
     }
-    if(snapshot.hasChild("ingresoFinal")){
-      store.commit('ingresoFinalSave', snapshot.val().ingresoFinal)
-    } else store.commit('ingresoFinalSave', 0.00)
+    if (snapshot.hasChild("ingresoFinal")) {
+      store.commit("ingresoFinalSave", snapshot.val().ingresoFinal);
+    } else store.commit("ingresoFinalSave", 0.0);
   }
 );
 </script>

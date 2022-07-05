@@ -1,106 +1,101 @@
 <template>
-    <div class="flex justify-around w-[85%]">
-        <!-- Tarjeta rentabilidad bruta -->
-        <div
-          class="
-            flex flex-col
-            w-[30%]
-            border-dashed border-2 border-fondo-gris
-            rounded-lg
-            pt-4
-            pb-6
+  <div class="flex h-full w-full select-none flex-col">
+    <div class="flex h-full w-full items-center justify-center space-x-12">
+      <div class="flex flex-col">
+        <GraficaFinalizados
+          :porcentaje="
+            props.dataFinal.rentabilidad.bruta
+              ? props.dataFinal.rentabilidad.bruta
+              : props.data.rentabilidad.bruta
           "
-        >
-          <div class="flex w-full justify-center">Rentabilidad Bruta</div>
-          <div class="flex justify-center mt-4 w-full">
-            <div
-              class="
-                flex
-                justify-center
-                items-center
-                font-semibold
-                text-lg
-                w-48
-                h-48
-                bg-fondo-gris
-                rounded-full
-              "
-            >
-              {{
-                props.rentabilidadFinal.bruta
-                  ? props.rentabilidadFinal.bruta
-                  : props.data.rentabilidad.bruta
-              }}%
-            </div>
-          </div>
-          <div class="flex w-full justify-around mt-2">
-            <div v-show="props.rentabilidadFinal.bruta" class="flex flex-col">
-              <div>Inicial</div>
-              <div>
-                {{
-                  props.rentabilidadFinal.bruta ? props.data.rentabilidad.bruta + "%" : ""
-                }}
-              </div>
-            </div>
-            <div class="flex flex-col items-center">
-              <div>Efectividad</div>
-              <div>{{ props.efectividad.bruta }}%</div>
-            </div>
-          </div>
-        </div>
-        <!-- Fin tarjeta rentabilidad bruta -->
-        <!-- Tarjeta rentabilidad neta -->
+          :color="props.coloresRentabilidadTexto.bruta"
+        />
         <div
-          class="
-            flex flex-col
-            w-[30%]
-            border-dashed border-2 border-fondo-gris
-            rounded-lg
-            pt-4
-            pb-6
-          "
+          class="min-h-10 flex h-10 w-full items-center justify-center space-x-4"
         >
-          <div class="flex w-full justify-center">Rentabilidad Neta</div>
-          <div class="flex justify-center mt-4 w-full">
-            <div
-              class="
-                flex
-                justify-center
-                items-center
-                font-semibold
-                text-lg
-                w-48
-                h-48
-                bg-fondo-gris
-                rounded-full
-              "
-            >
-              {{
-                props.rentabilidadFinal.neta
-                  ? props.rentabilidadFinal.neta
-                  : props.data.rentabilidad.neta
-              }}%
-            </div>
+          <div
+            :class="[
+              props.coloresRentabilidadFondo.bruta,
+              'flex h-full w-auto rounded px-3.5',
+            ]"
+          >
+            <img src="/img/icono_bruta.svg" />
           </div>
-          <div class="flex w-full justify-around mt-2">
-            <div v-show="rentabilidadFinal.neta" class="flex flex-col">
-              <div>Inicial</div>
-              <div>
-                {{ props.rentabilidadFinal.neta ? props.data.rentabilidad.neta + "%" : "" }}
-              </div>
-            </div>
-            <div class="flex flex-col items-center">
-              <div>Efectividad</div>
-              <div>{{ props.efectividad.neta }}%</div>
-            </div>
-          </div>
+          <div class="text-lg font-semibold">Rentabilidad Bruta</div>
         </div>
-        <!-- Fin tarjeta rentabilidad neta -->
       </div>
+      <div class="flex flex-col">
+        <GraficaFinalizados
+          :porcentaje="
+            props.dataFinal.rentabilidad.neta
+              ? props.dataFinal.rentabilidad.neta
+              : props.data.rentabilidad.neta
+          "
+          :color="props.coloresRentabilidadTexto.neta"
+        />
+        <div
+          class="min-h-10 flex h-10 w-full items-center justify-center space-x-4"
+        >
+          <div
+            :class="[
+              props.coloresRentabilidadFondo.neta,
+              'flex h-full w-auto rounded px-3.5',
+            ]"
+          >
+            <img src="/img/icono_neta.svg" />
+          </div>
+          <div class="text-lg font-semibold">Rentabilidad Neta</div>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <GraficaFinalizados
+          :porcentaje="
+            props.efectividad.neta
+              ? (
+                  (props.efectividad.neta + props.efectividad.bruta) /
+                  2
+                ).toFixed(2)
+              : 100
+          "
+          :color="props.coloresEfectividad.texto"
+        />
+        <div
+          class="min-h-10 flex h-10 w-full items-center justify-center space-x-4"
+        >
+          <div
+            :class="[
+              props.coloresEfectividad.fondo,
+              'flex h-full rounded px-3.5',
+            ]"
+          >
+            <img src="/img/efectividad.svg" />
+          </div>
+          <div class="text-lg font-semibold">Efectividad</div>
+        </div>
+      </div>
+    </div>
+    <div class="flex w-full items-center justify-center text-[#2166E5] mt-12">
+      <div @click="detalle = detalle ? false : true" class="h-auto w-auto cursor-pointer hover:underline">
+        Ver detalles
+      </div>
+    </div>
+    <div v-if="detalle"><ProyectosFinalizadosDetalle :data="props.data" :dataFinal="props.dataFinal" /></div>
+  </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from "vue";
+import GraficaFinalizados from "./GraficaFinalizados.vue";
+import ProyectosFinalizadosDetalle from "./ProyectosFinalizadosDetalle.vue";
 
-const props = defineProps(['data', 'rentabilidadFinal', 'efectividad']);
+const detalle = ref(false);
+const props = defineProps([
+  "data",
+  "dataFinal",
+  "rentabilidadFinal",
+  "efectividad",
+  "coloresRentabilidadFondo",
+  "coloresRentabilidadTexto",
+  "coloresEfectividad",
+]);
 </script>
