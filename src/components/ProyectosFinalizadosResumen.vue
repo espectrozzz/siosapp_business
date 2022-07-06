@@ -4,7 +4,7 @@
       <div class="flex flex-col">
         <GraficaFinalizados
           :porcentaje="
-            props.dataFinal.rentabilidad.bruta
+            props.dataFinal.rentabilidad
               ? props.dataFinal.rentabilidad.bruta
               : props.data.rentabilidad.bruta
           "
@@ -27,7 +27,7 @@
       <div class="flex flex-col">
         <GraficaFinalizados
           :porcentaje="
-            props.dataFinal.rentabilidad.neta
+            props.dataFinal.rentabilidad
               ? props.dataFinal.rentabilidad.neta
               : props.data.rentabilidad.neta
           "
@@ -82,14 +82,23 @@
         Ver detalles
       </div>
     </div>
-    <div v-if="detalle">
+    <TransitionRoot
+      :show="detalle"
+      enter="transition-opacity duration-400"
+      enter-from="opacity-0"
+      enter-to="opacity-100"
+      leave="transition-opacity duration-500"
+      leave-from="opacity-100"
+      leave-to="opacity-0"
+    >
       <ProyectosFinalizadosDetalle
         :data="props.data"
         :dataFinal="props.dataFinal"
         :coloresRentabilidadFondo="props.coloresRentabilidadFondo"
         :coloresRentabilidadTexto="props.coloresRentabilidadTexto"
+        :colorDegradadoDetalle="props.colorDegradadoDetalle"
       />
-    </div>
+    </TransitionRoot>
   </div>
 </template>
 
@@ -97,6 +106,7 @@
 import { ref, onMounted } from "vue";
 import GraficaFinalizados from "./GraficaFinalizados.vue";
 import ProyectosFinalizadosDetalle from "./ProyectosFinalizadosDetalle.vue";
+import { TransitionRoot } from "@headlessui/vue";
 
 const detalle = ref(false);
 const props = defineProps([
@@ -107,5 +117,6 @@ const props = defineProps([
   "coloresRentabilidadFondo",
   "coloresRentabilidadTexto",
   "coloresEfectividad",
+  "colorDegradadoDetalle",
 ]);
 </script>

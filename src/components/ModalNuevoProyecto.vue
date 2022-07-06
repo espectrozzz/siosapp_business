@@ -393,13 +393,9 @@ const agregarVolumetria = () => {
     store.state.b.unidadVolumetrias.push(
       medidas.value[store.state.b.controlVolumetria].atajo
     );
-    store.state.b.nameVolumetrias.push(
-      medidas.value[store.state.b.controlVolumetria].name
-    );
   } else {
     store.state.b.unidadVolumetrias.push(medidas.value[0].atajo);
-    store.state.b.nameVolumetrias.push(medidas.value[0].name);
-  }
+ n   }
   store.state.b.controlVolumetria++;
 };
 
@@ -434,7 +430,6 @@ const crearProyecto = () => {
     volumetriasCantidad.value[element] = {
       cantidad: store.state.b.volumetrias[index],
       unidad: store.state.b.unidadVolumetrias[index],
-      name: store.state.b.nameVolumetrias[index],
     };
   });
   if (errores.value.length > 0) return errores.value;

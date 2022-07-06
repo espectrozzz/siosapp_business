@@ -2,9 +2,7 @@
   <div class="flex h-full w-full flex-col space-y-12 px-6 py-6">
     <div class="flex h-auto w-full justify-evenly">
       <div class="flex h-full w-[25%] items-center justify-center">
-        <div
-          :class="[colorDegradado(), 'h-32 w-32 rounded-full bg-red-200 p-1']"
-        >
+        <div :class="[colorDegradado(), 'h-32 w-32 rounded-full p-1']">
           <div
             :class="[
               colorFondo(),
@@ -37,7 +35,7 @@
         </div>
       </div>
       <!-- Fin tarjeta de proyecto -->
-      <div class="flex w-[60%] items-center space-x-[10%] select-none">
+      <div class="flex w-[60%] select-none items-center space-x-[10%]">
         <!-- Ingresos -->
         <div class="flex h-full w-[30%] flex-col">
           <div class="flex h-full w-full flex-col space-y-4">
@@ -128,13 +126,7 @@
           :coloresRentabilidadFondo="colorRentabilidadFondo"
           :coloresRentabilidadTexto="colorRentabilidadTexto"
           :coloresEfectividad="colorEfectividad"
-        />
-        <proyectos-finalizados-detalle
-          v-if="detalle"
-          :data="data"
-          :keyData="$route.params.key"
-          :rentabilidadFinal="rentabilidadFinal"
-          :efectividad="efectividad"
+          :colorDegradadoDetalle="colorDegradadoDetalle"
         />
       </div>
     </div>
@@ -170,6 +162,7 @@ const iFinal = ref();
 const colorRentabilidadTexto = ref({
   neta: String,
   bruta: String,
+  fondo: String,
 });
 const colorRentabilidadFondo = ref({
   neta: String,
@@ -178,7 +171,8 @@ const colorRentabilidadFondo = ref({
 const colorEfectividad = ref({
   texto: String,
   fondo: String,
-})
+});
+const colorDegradadoDetalle = ref();
 
 const colorFondo = () => {
   let color;
@@ -240,47 +234,61 @@ const colorFondoRentabilidadBruta = () => {
 const colorFondoRentabilidadNeta = () => {
   let color;
   let grafico;
+  let fondo;
   switch (data.value.unidad) {
     case "Poliza":
       color = "bg-poliza-2";
       grafico = "text-poliza-2";
+      fondo = "text-poliza";
       break;
     case "Megacable":
       color = "bg-megacable-2";
       grafico = "text-megacable-2";
+      fondo = "text-megacable";
       break;
     case "Infraestructura":
       color = "bg-infraestructura-2";
       grafico = "text-infraestructura-2";
+      fondo = "text-infraestructura";
       break;
     case "Ventas":
       color = "bg-ventas-2";
       grafico = "text-ventas-2";
+      fondo = "text-ventas";
       break;
   }
   colorRentabilidadFondo.value.neta = color;
   colorRentabilidadTexto.value.neta = grafico;
+  colorRentabilidadTexto.value.fondo = fondo;
   return color;
 };
 
 const colorDegradado = () => {
   let colorDegradado;
+  let colorDegradadoDetalleFunc;
   switch (data.value.unidad) {
     case "Poliza":
       colorDegradado = "bg-gradient-to-tr from-poliza via-poliza-2 to-poliza-3";
+      colorDegradadoDetalleFunc = "bg-gradient-to-tr from-poliza to-poliza-3";
       break;
     case "Megacable":
       colorDegradado =
         "bg-gradient-to-tr from-megacable via-megacable-2 to-megacable-3";
+      colorDegradadoDetalleFunc =
+        "bg-gradient-to-tr from-megacable to-megacable-3";
       break;
     case "Infraestructura":
       colorDegradado =
         "bg-gradient-to-tr from-infraestructura via-infraestructura-2 to-infraestructura-3";
+      colorDegradadoDetalleFunc =
+        "bg-gradient-to-tr from-infraestructura to-infraestructura-3";
       break;
     case "Ventas":
       colorDegradado = "bg-gradient-to-tr from-ventas via-ventas-2 to-ventas-3";
+      colorDegradadoDetalleFunc = "bg-gradient-to-tr from-ventas to-ventas-3";
       break;
   }
+  colorDegradadoDetalle.value = colorDegradadoDetalleFunc;
   return colorDegradado;
 };
 
