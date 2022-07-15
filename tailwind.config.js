@@ -27,6 +27,7 @@ module.exports = {
         'ventas': '#1B208C',
         'ventas-2': '#494DA3',
         'ventas-3': '#8D90C6',
+        'texto-gris': '#7C8495',
       },
       boxShadow: {
         'right': '0 6px 15px -2px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)'

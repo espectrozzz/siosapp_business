@@ -81,10 +81,10 @@ const proyectosControl = {
         else state.controlPoliza = true;
     },
     ingresoFinalSave(state, ingreso) {
-      state.ingresoFinal = ingreso.toLocaleString("en", {
+      state.ingresoFinal = (ingreso.toLocaleString("en", {
         style: "currency",
         currency: "MXN"
-      })
+      })).replace('MX', '');
     },
     queryResult(state, data) {
       state.proyectoQuery = data;
